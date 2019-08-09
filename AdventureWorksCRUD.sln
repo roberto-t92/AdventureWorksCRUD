@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28902.138
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdventureWorksCRUD", "AdventureWorksCRUD\AdventureWorksCRUD.csproj", "{1A69CBA2-3A7F-4605-A084-D12786D61464}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1A69CBA2-3A7F-4605-A084-D12786D61464}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A69CBA2-3A7F-4605-A084-D12786D61464}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A69CBA2-3A7F-4605-A084-D12786D61464}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A69CBA2-3A7F-4605-A084-D12786D61464}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {26483F66-8550-4B92-B772-51553A777D44}
+	EndGlobalSection
+EndGlobal
