@@ -14,6 +14,8 @@ namespace AdventureWorksCRUD.Controllers
             return View();
         }
 
+        #region "Department"
+
         [HttpGet]
         public ActionResult GetDepartment()
         {
@@ -23,17 +25,43 @@ namespace AdventureWorksCRUD.Controllers
                 return Json(new { data = list }, JsonRequestBehavior.AllowGet);
             }
         }
-        
+
+        //[HttpPost]
+        //public ActionResult PostDepartment(Department DM)
+        //{
+        //    try
+        //    {
+        //        using (dbConn ef = new dbConn())
+        //        {
+        //            Department dept = new Department();
+
+        //            short Id = Convert.ToInt16(ef.Department.Max(field => (short?)field.DepartmentID) + 1 ?? 1);
+        //            dept.DepartmentID = Id;
+        //            dept.Name = DM.Name;
+        //            dept.GroupName = DM.GroupName;
+        //            dept.ModifiedDate = DateTime.Now;
+        //            ef.Department.Add(dept);
+        //            ef.SaveChanges();
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return new HttpStatusCodeResult(500, " :( Something bad happened: " + ex.Message);
+        //    }
+        //    return Json(new { success = true, Message = "Successful", JsonRequestBehavior.AllowGet });
+        //}
+
+        [HttpPost]
         public ActionResult PostDepartment(Department DM)
         {
             try
             {
-                if (DM.OperationType == "Save")
+                using (dbConn ef = new dbConn())
                 {
-                    using (dbConn ef = new dbConn())
-                    {
-                        Department dept = new Department();
+                    Department dept = new Department();
 
+                    if(DM.OperationType == "Save")
+                    {
                         short Id = Convert.ToInt16(ef.Department.Max(field => (short?)field.DepartmentID) + 1 ?? 1);
                         dept.DepartmentID = Id;
                         dept.Name = DM.Name;
@@ -41,6 +69,20 @@ namespace AdventureWorksCRUD.Controllers
                         dept.ModifiedDate = DateTime.Now;
                         ef.Department.Add(dept);
                         ef.SaveChanges();
+                    }
+
+                    if(DM.OperationType == "Update")
+                    {
+                        dept = ef.Department.First(row => row.DepartmentID == DM.DepartmentID);
+                        dept.Name = DM.Name;
+                        dept.GroupName = DM.GroupName;
+                        dept.ModifiedDate = DateTime.Now;
+                        ef.SaveChanges();
+                    }
+
+                    if(DM.OperationType == "Delete")
+                    {
+
                     }
                 }
             }
@@ -50,5 +92,8 @@ namespace AdventureWorksCRUD.Controllers
             }
             return Json(new { success = true, Message = "Successful", JsonRequestBehavior.AllowGet });
         }
+
+        #endregion
+
     }
 }
