@@ -220,6 +220,7 @@
     <Compile Include="Models\Location.cs">
       <DependentUpon>dbModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ModelPartialClasses.cs" />
     <Compile Include="Models\Password.cs">
       <DependentUpon>dbModel.tt</DependentUpon>
     </Compile>

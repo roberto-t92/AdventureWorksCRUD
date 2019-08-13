@@ -4,6 +4,7 @@
 
 <h2 class="d-flex justify-content-end">Human Resources</h2>
 
+<!-- Department -->
 <div class="row">
     <!-- Form -->
     <div class="col">
@@ -24,7 +25,7 @@
                 <button id="departmentSave" type="button" class="btn btn-warning btn-sm col-md-3" style="margin:0 15px;">Save</button>
                 <button id="departmentReset" type="button" class="btn btn-info btn-sm col-md-1" style="margin:0 15px;"><i class="fas fa-sync-alt"></i></button>
             </div>
-                <label style="font-size:11px;">* Required values.</label>
+            <label style="font-size:11px;">* Required values.</label>
         </form>
     </div>
     <!-- Table -->
@@ -39,6 +40,102 @@
                             <th>GroupName</th>
                             <th>ModifiedDate</th>
                             <th>Edit</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div style="height:100px;"></div>
+
+<!-- Employee -->
+<div class="row">
+    <!-- Form -->
+    <div class="col">
+        <h3 class="row d-flex justify-content-center">Employee</h3>
+        <form>
+            <input type="hidden" id="employeeID" />
+            <div class="form-group row">
+                <div id="employeeAlert" class="alert alert-danger alert-dismissible collapse" role="alert" style="width:100%;">Error: There are required empty fields.<a href="#" class="close" data-dismiss="alert">&times;</a></div>
+                <div id="employeePostSuccess" class="alert alert-primary alert-dismissible collapse" role="alert" style="width:100%;">Data saved successfully.<a href="#" class="close" data-dismiss="alert">&times;</a></div>
+            </div>
+            <div class="form-group row">
+                <input id="employeeNationalIDNumber" type="text" placeholder="National ID Number *" class="form-control form-control-sm" />
+            </div>
+            <div class="form-group row">
+                <input id="employeeLoginID" type="text" placeholder="Login ID *" class="form-control form-control-sm" />
+            </div>
+            <div class="form-group row">
+                <input id="employeeOrganizationLevel" type="text" placeholder="Organization Level" class="form-control form-control-sm" />
+            </div>
+            <div class="form-group row">
+                <input id="employeeJobTitle" type="text" placeholder="Job Title *" class="form-control form-control-sm" />
+            </div>
+            <div class="form-group row">
+                <div class="col" style="padding-left:0;">
+                    <input id="employeeBirthDate" type="text" placeholder="Birth Date *" class="form-control form-control-sm" />
+                </div>
+                <div class="col" style="padding:0;">
+                    <input id="employeeMaritalStatus" type="text" placeholder="Marital Status *" class="form-control form-control-sm" />
+                </div>
+                <div class="col" style="padding-right:0;">
+                    <input id="employeeGender" type="text" placeholder="Gender *" class="form-control form-control-sm" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col" style="padding-left:0;">
+                    <input id="employeeHireDate" type="text" placeholder="Hire Date *" class="form-control form-control-sm" />
+                </div>
+                <div class="col" style="padding:0;">
+                    <input id="employeeSalariedFlag" type="text" placeholder="Salaried Flag *" class="form-control form-control-sm" />
+                </div>
+                <div class="col" style="padding-right:0;">
+                    <input id="employeeVacationHours" type="text" placeholder="Vac. Hours *" class="form-control form-control-sm" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col" style="padding-left:0;">
+                    <input id="employeeSickLeaveHours" type="text" placeholder="Sick Leave Hrs. *" class="form-control form-control-sm" />
+                </div>
+                <div class="col" style="padding-right:0;">
+                    <input id="employeeCurrentFlag" type="text" placeholder="Current Flag *" class="form-control form-control-sm" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <input id="employeeRowguid" type="text" placeholder="row gu id *" class="form-control form-control-sm" />
+            </div>
+                <div class="form-group row d-flex justify-content-center">
+                    <button id="employeeSave" type="button" class="btn btn-warning btn-sm col-md-3" style="margin:0 15px;">Save</button>
+                    <button id="employeeReset" type="button" class="btn btn-info btn-sm col-md-1" style="margin:0 15px;"><i class="fas fa-sync-alt"></i></button>
+                </div>
+                <label style="font-size:11px;">* Required values.</label>
+        </form>
+    </div>
+    <!-- Table -->
+    <div class="col col-md-8">
+        <div class="pagination pagination-sm">
+            <div class="table-responsive">
+                <table id="employeeTable" class="table table-sm table-bordered table-hover">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>ID</th>
+                            <th class="md-col">National ID Number</th>
+                            <th class="md-col">Login ID</th>
+                            @*<th>Organization Node</th>*@
+                            <th class="md-col">Organization Level</th>
+                            <th class="md-col">Job Title</th>
+                            <th class="xm-col">Birth Date</th>
+                            <th class="xm-col">Marital Status</th>
+                            <th>Gender</th>
+                            <th class="xm-col">Hire Date</th>
+                            <th class="xm-col">Salaried Flag</th>
+                            <th class="md-col">Vacation Hours</th>
+                            <th class="md-col">Sick Leave Hours</th>
+                            <th class="xm-col">Current Flag</th>
+                            <th class="md-col">row gu id</th>
+                            <th class="xm-col">Modified Date</th>
+                            <th class="xm-col">Edit</th>
                         </tr>
                     </thead>
                 </table>
@@ -61,12 +158,52 @@
                 <p id="errorModalMsg">Error</p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>                
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
 </div>
-
+<!-- Confirm Modals -->
+<div class="modal fade" id="departmentModal" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirm</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="departmentDeleteID" />
+                <p>Are you sure you want to delete this record?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn btn-danger" onclick="departmentDelete()">Yes</button>
+                <button type="button" data-dismiss="modal" class="btn btn-primary" >No</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="employeeModal" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirm</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="employeeDeleteID" />
+                <p>Are you sure you want to delete this record?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn btn-danger" onclick="employeeDelete()">Yes</button>
+                <button type="button" data-dismiss="modal" class="btn btn-primary">No</button>
+            </div>
+        </div>
+    </div>
+</div>
 <script src="~/Scripts/ViewScripts/HumanResources.js"></script>
 
 

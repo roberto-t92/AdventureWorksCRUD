@@ -2345,12 +2345,12 @@ warning 6031: The column 'DocumentNode' on the table/view 'AdventureWorks2012.Pr
           <Property Name="CurrentFlag" Type="Boolean" Nullable="false" />
           <Property Name="rowguid" Type="Guid" Nullable="false" />
           <Property Name="ModifiedDate" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="Person" Relationship="Self.FK_Employee_Person_BusinessEntityID" FromRole="Employee" ToRole="Person" />
-          <NavigationProperty Name="EmployeeDepartmentHistory" Relationship="Self.FK_EmployeeDepartmentHistory_Employee_BusinessEntityID" FromRole="Employee" ToRole="EmployeeDepartmentHistory" />
-          <NavigationProperty Name="EmployeePayHistory" Relationship="Self.FK_EmployeePayHistory_Employee_BusinessEntityID" FromRole="Employee" ToRole="EmployeePayHistory" />
-          <NavigationProperty Name="JobCandidate" Relationship="Self.FK_JobCandidate_Employee_BusinessEntityID" FromRole="Employee" ToRole="JobCandidate" />
-          <NavigationProperty Name="PurchaseOrderHeader" Relationship="Self.FK_PurchaseOrderHeader_Employee_EmployeeID" FromRole="Employee" ToRole="PurchaseOrderHeader" />
-          <NavigationProperty Name="SalesPerson" Relationship="Self.FK_SalesPerson_Employee_BusinessEntityID" FromRole="Employee" ToRole="SalesPerson" />
+          <NavigationProperty Name="Person" Relationship="Self.FK_Employee_Person_BusinessEntityID" FromRole="Employee" ToRole="Person" a:GetterAccess="Internal" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" />
+          <NavigationProperty Name="EmployeeDepartmentHistory" Relationship="Self.FK_EmployeeDepartmentHistory_Employee_BusinessEntityID" FromRole="Employee" ToRole="EmployeeDepartmentHistory" a:GetterAccess="Internal" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" />
+          <NavigationProperty Name="EmployeePayHistory" Relationship="Self.FK_EmployeePayHistory_Employee_BusinessEntityID" FromRole="Employee" ToRole="EmployeePayHistory" a:GetterAccess="Internal" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" />
+          <NavigationProperty Name="JobCandidate" Relationship="Self.FK_JobCandidate_Employee_BusinessEntityID" FromRole="Employee" ToRole="JobCandidate" a:GetterAccess="Internal" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" />
+          <NavigationProperty Name="PurchaseOrderHeader" Relationship="Self.FK_PurchaseOrderHeader_Employee_EmployeeID" FromRole="Employee" ToRole="PurchaseOrderHeader" a:GetterAccess="Internal" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" />
+          <NavigationProperty Name="SalesPerson" Relationship="Self.FK_SalesPerson_Employee_BusinessEntityID" FromRole="Employee" ToRole="SalesPerson" a:GetterAccess="Internal" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" />
         </EntityType>
         <EntityType Name="EmployeeDepartmentHistory">
           <Key>

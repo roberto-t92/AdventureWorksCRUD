@@ -1,13 +1,11 @@
 ﻿html, body {
     margin: 0;
     padding: 0;
-    height:100%;
 }
 
 .body-content {
     padding-left: 15px;
-    padding-right: 15px;    
-    height:100%;
+    padding-right: 15px;
 }
 
 nav {
@@ -113,8 +111,29 @@ h3 {
     }
 }
 
+th {
+    font-size:14px !important;
+}
+
+td {
+    font-size:13px !important;
+}
+
+/* Employee table */
+table#employeeTable {
+    table-layout:fixed;
+}
+
+.md-col {
+    width:150px !important;
+}
+
+.xm-col {
+    width:100px !important;
+}
+
 footer {
-    bottom:0;
+    bottom:0 !important;
     width:100%;
     height:50px;
     margin-top:-50px;

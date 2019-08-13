@@ -39,15 +39,15 @@ namespace AdventureWorksCRUD.Models
         public System.Guid rowguid { get; set; }
         public System.DateTime ModifiedDate { get; set; }
     
-        public virtual Person Person { get; set; }
+        public virtual Person Person { internal get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<EmployeeDepartmentHistory> EmployeeDepartmentHistory { get; set; }
+        public virtual ICollection<EmployeeDepartmentHistory> EmployeeDepartmentHistory { internal get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<EmployeePayHistory> EmployeePayHistory { get; set; }
+        public virtual ICollection<EmployeePayHistory> EmployeePayHistory { internal get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<JobCandidate> JobCandidate { get; set; }
+        public virtual ICollection<JobCandidate> JobCandidate { internal get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PurchaseOrderHeader> PurchaseOrderHeader { get; set; }
-        public virtual SalesPerson SalesPerson { get; set; }
+        public virtual ICollection<PurchaseOrderHeader> PurchaseOrderHeader { internal get; set; }
+        public virtual SalesPerson SalesPerson { internal get; set; }
     }
 }
