@@ -220,7 +220,7 @@ $(document).ready(function () {
             { "data": "NationalIDNumber" },
             { "data": "LoginID" },
             //{ "data": "OrganizationNode" },
-            { "data": "OrganizationLevel" },
+            //{ "data": "OrganizationLevel" },
             { "data": "JobTitle" },
             {
                 "data": "BirthDate",
@@ -252,7 +252,7 @@ $(document).ready(function () {
             },
             {
                 "data": "BusinessEntityID", "render": function (data) {
-                    return "<button type='button' class='btn btn-success btn-sm' onclick=editRowEmployee(" + data + ")><i class='fas fa-edit'></i></button>&nbsp;<div class='btn btn-danger btn-sm' style='cursor:pointer;' onclick=employeeConfirm(" + data + ")><i class='fas fa-trash-alt'></i></div>"
+                    return "<button type='button' class='btn btn-success btn-sm' onclick=editRowEmployee(" + data + ")><i class='fas fa-edit'></i></button>"
                 },
                 "orderable": false,
                 "searchable": false,
@@ -272,7 +272,7 @@ function editRowEmployee(data) {
 
         $('#employeeNationalIDNumber').removeClass('border border-danger');
         $('#employeeLoginID').removeClass('border border-danger');
-        $('#employeeOrganizationLevel').removeClass('border border-danger');
+        //$('#employeeOrganizationLevel').removeClass('border border-danger');
         $('#employeeJobTitle').removeClass('border border-danger');
         $('#employeeBirthDate').removeClass('border border-danger');
         $('#employeeMaritalStatus').removeClass('border border-danger');
@@ -291,7 +291,7 @@ function editRowEmployee(data) {
 
         $('#employeeNationalIDNumber').val(row.NationalIDNumber);
         $('#employeeLoginID').val(row.LoginID);
-        $('#employeeOrganizationLevel').val(row.OrganizationLevel);
+        //$('#employeeOrganizationLevel').val(row.OrganizationLevel);
         $('#employeeJobTitle').val(row.JobTitle);        
         $('#employeeBirthDate').val(moment(row.BirthDate).format("DD-MM-YYYY"));
         $('#employeeMaritalStatus').val(row.MaritalStatus);
@@ -379,9 +379,10 @@ $('#employeeSave').click(function () {
 function employeePOST() {
 
     let viewModel = new EmployeeModel();
+    viewModel.BusinessEntityID = $('#employeeID').val();
     viewModel.NationalIDNumber = $('#employeeNationalIDNumber').val();
     viewModel.LoginID = $('#employeeLoginID').val();
-    viewModel.OrganizationLevel = $('#employeeOrganizationLevel').val();
+    //viewModel.OrganizationLevel = $('#employeeOrganizationLevel').val();
     viewModel.JobTitle = $('#employeeJobTitle').val();
     viewModel.BirthDate = $('#employeeBirthDate').val();
     viewModel.MaritalStatus = $('#employeeMaritalStatus').val();
@@ -428,7 +429,7 @@ function employeePOST() {
                 $.unblockUI();
                 $('#errorModalMsg').text(customMessage);
                 $('#errorModal').modal('show');
-                employeeReset();
+                //employeeReset();
             }
         },
         success: function () {
@@ -457,7 +458,7 @@ function employeeConfirm(data) {
     $('#employeeModal').modal('show');
     $('#employeeDeleteID').val(data);
 }
-function departmentDelete() {
+function employeeDelete() {
     let id = $('#employeeDeleteID').val();
     $('#employeeID').val(id)
     $('#employeeSave').text('Delete');
@@ -475,11 +476,7 @@ $("#employeeLoginID").on('keyup', function (e) {
         $(this).removeClass("border border-danger");
     }
 });
-$("#employeeOrganizationLevel").on('keyup', function (e) {
-    if ($(this).val().length > 0) {
-        $(this).removeClass("border border-danger");
-    }
-});
+//OrganizationLevel
 $("#employeeJobTitle").on('keyup', function (e) {
     if ($(this).val().length > 0) {
         $(this).removeClass("border border-danger");
@@ -538,7 +535,7 @@ $("#employeeReset").click(function () {
 function employeeReset() {
     $('#employeeNationalIDNumber').val('');
     $('#employeeLoginID').val('');
-    $('#employeeOrganizationLevel').val('');
+    //$('#employeeOrganizationLevel').val('');
     $('#employeeJobTitle').val('');
     $('#employeeBirthDate').val('');
     $('#employeeMaritalStatus').val('');
@@ -551,7 +548,7 @@ function employeeReset() {
     $('#employeeRowguid').val('');
     $('#employeeNationalIDNumber').removeClass('border border-danger');
     $('#employeeLoginID').removeClass('border border-danger');
-    $('#employeeOrganizationLevel').removeClass('border border-danger');
+    //$('#employeeOrganizationLevel').removeClass('border border-danger');
     $('#employeeJobTitle').removeClass('border border-danger');
     $('#employeeBirthDate').removeClass('border border-danger');
     $('#employeeMaritalStatus').removeClass('border border-danger');
@@ -567,9 +564,63 @@ function employeeReset() {
     $('#employeeSave').text('Save');
 };
 
+//--------------------------------------------------------------------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------------------------------------------------------
+
 //EmployeeDepartmentHistory Form Model
+function EmployeeDeptHis() {
+    let BusinessEntityID = "", DepartmentID = "", ShiftID = "", StartDate = "", EndDate = "", OperationType = "";
+}
 
 //EmployeeDepartmentHistory GET
+$(document).ready(function () {
+    $("#employeeDeptHisTable").DataTable({
+        "info": false,
+        "lengthChange": false,
+        "drawCallback": function () {
+            //employeeDeptHisReset();
+        },
+        "ajax": {
+            "url": "/HumanResources/GetEmployeeDeptHis",
+            "type": "GET",
+            "datatype": "json"
+        },
+        "columns": [
+            { "data": "BusinessEntityID" },
+            { "data": "DepartmentID" },
+            { "data": "ShiftID" },
+            {
+                "data": "StartDate",
+                "render": function (data) {
+                    if (data === null) return "";
+                    return moment(data).format('DD/MM/YYYY');
+                }
+            },
+            {
+                "data": "EndDate",
+                "render": function (data) {
+                    if (data === null) return "";
+                    return moment(data).format('DD/MM/YYYY');
+                }
+            },
+            {
+                "data": "ModifiedDate",
+                "render": function (data) {
+                    if (data === null) return "";
+                    return moment(data).format('DD/MM/YYYY');
+                }
+            },
+            {
+                "data": "DepartmentID", "render": function (data) {
+                    return "<button type='button' class='btn btn-success btn-sm' onclick=editRowDepartment(" + data + ")><i class='fas fa-edit'></i></button>&nbsp;<div class='btn btn-danger btn-sm' style='cursor:pointer;' onclick=departmentConfirm(" + data + ")><i class='fas fa-trash-alt'></i></div>"
+                },
+                "orderable": false,
+                "searchable": false,
+                "className": 'text-center'
+            }
+        ]
+    });
+});
 
 //EmployeeDepartmentHistory Edit Button
 

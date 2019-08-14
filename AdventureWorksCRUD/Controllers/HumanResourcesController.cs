@@ -95,10 +95,11 @@ namespace AdventureWorksCRUD.Controllers
 
                     if (EM.OperationType == "Save")
                     {
-                        short Id = Convert.ToInt16(ef.Employee.Max(field => (short?)field.BusinessEntityID) + 1 ?? 1);
+                        int Id = Convert.ToInt32(ef.Employee.Max(field => (int?)field.BusinessEntityID) + 1 ?? 1);
+                        emp.BusinessEntityID = Id;
                         emp.NationalIDNumber = EM.NationalIDNumber;
                         emp.LoginID = EM.LoginID;
-                        emp.OrganizationLevel = EM.OrganizationLevel;
+                        //emp.OrganizationLevel = EM.OrganizationLevel;
                         emp.JobTitle = EM.JobTitle;
                         emp.BirthDate = EM.BirthDate;
                         emp.MaritalStatus = EM.MaritalStatus;
@@ -109,6 +110,7 @@ namespace AdventureWorksCRUD.Controllers
                         emp.SickLeaveHours = EM.SickLeaveHours;
                         emp.CurrentFlag = EM.CurrentFlag;
                         emp.rowguid = EM.rowguid;
+                        emp.ModifiedDate = DateTime.Now;
 
                         ef.Employee.Add(emp);
                         ef.SaveChanges();
@@ -119,7 +121,7 @@ namespace AdventureWorksCRUD.Controllers
                         emp = ef.Employee.First(row => row.BusinessEntityID == EM.BusinessEntityID);
                         emp.NationalIDNumber = EM.NationalIDNumber;
                         emp.LoginID = EM.LoginID;
-                        emp.OrganizationLevel = EM.OrganizationLevel;
+                        //emp.OrganizationLevel = Convert.ToInt16(EM.OrganizationLevel);
                         emp.JobTitle = EM.JobTitle;
                         emp.BirthDate = EM.BirthDate;
                         emp.MaritalStatus = EM.MaritalStatus;
@@ -147,6 +149,20 @@ namespace AdventureWorksCRUD.Controllers
                 return new HttpStatusCodeResult(500, " :( Something bad happened: " + ex.Message);
             }
             return Json(new { success = true, Message = "Successful", JsonRequestBehavior.AllowGet });
+        }
+
+        #endregion
+
+        #region "Employee Department History"
+
+        [HttpGet]
+        public ActionResult GetEmployeeDeptHis()
+        {
+            using (dbConn ef = new dbConn())
+            {
+                List<EmployeeDepartmentHistory> list = ef.EmployeeDepartmentHistory.ToList();
+                return Json(new { data = list }, JsonRequestBehavior.AllowGet);
+            }
         }
 
         #endregion

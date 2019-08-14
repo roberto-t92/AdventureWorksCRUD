@@ -21,8 +21,8 @@ namespace AdventureWorksCRUD.Models
         public Nullable<System.DateTime> EndDate { get; set; }
         public System.DateTime ModifiedDate { get; set; }
     
-        public virtual Department Department { get; set; }
-        public virtual Employee Employee { get; set; }
-        public virtual Shift Shift { get; set; }
+        public virtual Department Department { internal get; set; }
+        public virtual Employee Employee { internal get; set; }
+        public virtual Shift Shift { internal get; set; }
     }
 }

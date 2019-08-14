@@ -16,4 +16,10 @@ namespace AdventureWorksCRUD.Models
         [NotMapped]
         public string OperationType { get; set; }
     }
+
+    public partial class EmployeeDepartmentHistory
+    {
+        [NotMapped]
+        public string OperationType { get; set; }
+    }
 }
