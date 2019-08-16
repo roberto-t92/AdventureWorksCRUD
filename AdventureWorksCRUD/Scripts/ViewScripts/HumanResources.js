@@ -141,12 +141,6 @@ function departmentPOST() {
     });
 }
 
-//Department POST - Error
-function departmentPostError() {
-    $('#departmentPostError').show('fade');
-    setTimeout(function () { $('#departmentPostError').hide('fade'); }, 6000);
-}
-
 //Department POST - Success
 function departmentPostSuccess() {
     $('#departmentPostSuccess').show('fade');
@@ -188,6 +182,7 @@ function departmentReset() {
     $('#departmentGroupName').removeClass('border border-danger');
     $('#departmentTable tr').removeClass('text-primary');
     $('#departmentID').val('');
+
     $('#departmentDeleteID').val('');
     $('#departmentSave').text('Save');
 };
@@ -429,7 +424,7 @@ function employeePOST() {
                 $.unblockUI();
                 $('#errorModalMsg').text(customMessage);
                 $('#errorModal').modal('show');
-                //employeeReset();
+                employeeReset();
             }
         },
         success: function () {
@@ -439,12 +434,6 @@ function employeePOST() {
             employeeReset();
         }
     });
-}
-
-//Employee POST Error
-function employeePostError() {
-    $('#employeePostError').show('fade');
-    setTimeout(function () { $('#employeePostError').hide('fade'); }, 6000);
 }
 
 //Employee POST Success
@@ -560,6 +549,7 @@ function employeeReset() {
     $('#employeeCurrentFlag').removeClass('border border-danger');
     $('#employeeRowguid').removeClass('border border-danger');
     $('#employeeTable tr').removeClass('text-primary');
+
     $('#employeeID').val('');
     $('#employeeSave').text('Save');
 };
@@ -567,40 +557,259 @@ function employeeReset() {
 //--------------------------------------------------------------------------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------------------------------------------------------------------------
 
-//EmployeeDepartmentHistory Form Model
-function EmployeeDeptHis() {
-    let BusinessEntityID = "", DepartmentID = "", ShiftID = "", StartDate = "", EndDate = "", OperationType = "";
+//EmployeePayHistory Form Model
+function EmployeePayHisModel() {
+    let BusinessEntityID = "", RateChangeDate = "", Rate = "", PayFrequency = "", OperationType = "";
 }
 
-//EmployeeDepartmentHistory GET
+//EmployeePayHistory GET
 $(document).ready(function () {
-    $("#employeeDeptHisTable").DataTable({
+    $("#employeePayHisTable").DataTable({
         "info": false,
         "lengthChange": false,
         "drawCallback": function () {
-            //employeeDeptHisReset();
+            employeePayHisReset();
         },
         "ajax": {
-            "url": "/HumanResources/GetEmployeeDeptHis",
+            "url": "/HumanResources/GetEmployeePayHis",
             "type": "GET",
             "datatype": "json"
         },
         "columns": [
             { "data": "BusinessEntityID" },
-            { "data": "DepartmentID" },
-            { "data": "ShiftID" },
             {
-                "data": "StartDate",
+                "data": "RateChangeDate",
+                "render": function (data) {
+                    if (data === null) return "";
+                    return moment(data).format('DD/MM/YYYY');
+                }
+            },
+            { "data": "Rate" },
+            { "data": "PayFrequency" },
+            {
+                "data": "ModifiedDate",
                 "render": function (data) {
                     if (data === null) return "";
                     return moment(data).format('DD/MM/YYYY');
                 }
             },
             {
-                "data": "EndDate",
+                "data": "BusinessEntityID", "render": function (data) {
+                    return "<button type='button' class='btn btn-success btn-sm' onclick=editRowEmployeePayHis(" + data + ")><i class='fas fa-edit'></i></button>&nbsp;<div class='btn btn-danger btn-sm' style='cursor:pointer;' onclick=employeePayHisConfirm(" + data + ")><i class='fas fa-trash-alt'></i></div>"
+                },
+                "orderable": false,
+                "searchable": false,
+                "className": 'text-center'
+            }
+        ]
+    });
+});
+
+//EmployeePayHistory Edit Button
+function editRowEmployeePayHis(data) {
+    $('#employeePayHisSave').text('Update');
+
+    $('#employeePayHisTable tbody').on('click', 'tr', function () {
+        $('tr').removeClass('text-primary');
+        $(this).addClass('text-primary');
+
+        $('#employeePayHisRateChangeDate').removeClass('border border-danger');
+        $('#employeePayHisRate').removeClass('border border-danger');
+        $('#employeePayHisPayFrequency').removeClass('border border-danger');
+    });
+
+    $('#employeePayHisTable tbody').on('click', 'button', function () {
+        let table = $('#employeePayHisTable').DataTable();
+        let row = table.row($(this).parents('tr')).data();
+
+        if (row.RateChangeDate === null) {
+            $('#employeePayHisRateChangeDate').val('');
+        }
+        else {
+            $('#employeePayHisRateChangeDate').val(moment(row.RateChangeDate).format("DD-MM-YYYY"));
+        }
+        $('#employeePayHisRate').val(row.Rate);
+        $('#employeePayHisPayFrequency').val(row.PayFrequency);
+
+        $('#employeePayHisID').val(data);
+    });
+}
+
+//EmployeePayHistory Validate
+function validateEmployeePayHis() {
+    let val = true;
+
+    if ($("#employeePayHisRateChangeDate").val() == "") {
+        $("#employeePayHisRateChangeDate").addClass('border border-danger');
+        val = false;
+    }
+    if ($('#employeePayHisRate').val() == "") {
+        $("#employeePayHisRate").addClass('border border-danger');
+        val = false;
+    }
+    if ($('#employeePayHisPayFrequency').val() == "") {
+        $("#employeePayHisPayFrequency").addClass('border border-danger');
+        val = false;
+    }
+
+    if (val == false) {
+        $("#employeePayHisAlert").show('fade');
+        setTimeout(function () { $("#employeePayHisAlert").hide('fade'); }, 7000);
+    }
+
+    return val;
+}
+
+//EmployeePayHistory Save
+$('#employeePayHisSave').click(function () {
+    if (validateEmployeePayHis()) {
+        employeePayHisPOST();
+    }
+});
+
+//EmployeePayHistory POST
+function employeePayHisPOST() {
+
+    let viewModel = new EmployeePayHisModel();
+    viewModel.BusinessEntityID = $('#employeePayHisID').val();
+    viewModel.RateChangeDate = $('#employeePayHisRateChangeDate').val();
+    viewModel.Rate = $('#employeePayHisRate').val();
+    viewModel.PayFrequency = $('#employeePayHisPayFrequency').val();
+
+    viewModel.OperationType = $('#employeePayHisSave').text();
+
+    let ljson = JSON.stringify({ EPH: viewModel });
+
+    $.ajax({
+        url: '/HumanResources/PostEmployeePayHis',
+        type: 'POST',
+        async: 'true',
+        cache: 'false',
+        data: ljson,
+        contentType: 'application/json',
+        beforeSend: function () {
+            $(document).ready(function () {
+                $.blockUI({
+                    message: '<div class="circle"></div><div class="circle1"></div>',
+                    css: {
+                        border: 'none',
+                        padding: '15px',
+                        backgroundColor: '#000',
+                        '-webkit-border-radius': '10px',
+                        '-moz-border-radius': '10px',
+                        opacity: .5,
+                        color: '#fff'
+                    }
+                });
+            });
+        },
+        complete: function () {
+            $.unblockUI();
+        },
+        error: function (xhr, httpStatusMessage, customMessage) {
+            if (xhr.status === 500) {
+                $.unblockUI();
+                $('#errorModalMsg').text(customMessage);
+                $('#errorModal').modal('show');
+                employeePayHisReset();
+            }
+        },
+        success: function () {
+            $.unblockUI();
+            employeePayHisPostSuccess();
+            $('#employeePayHisTable').DataTable().ajax.reload();
+            employeePayHisReset();
+        }
+    });
+}
+
+//EmployeePayHistory POST Success
+function employeePayHisPostSuccess() {
+    $('#employeePayHisPostSuccess').show('fade');
+    setTimeout(function () { $('#employeePayHisPostSuccess').hide('fade'); }, 6000);
+}
+
+//EmployeePayHistory DELETE
+function employeePayHisConfirm(data) {
+    $('#employeePayHisModal').modal('show');
+    $('#employeePayHisDeleteID').val(data);
+}
+function employeePayHisDelete() {
+    let id = $('#employeePayHisDeleteID').val();
+    $('#employeePayHisID').val(id)
+    $('#employeePayHisSave').text('Delete');
+    employeePayHisPOST();
+}
+
+//EmployeePayHistory Form - Remove red border as user type
+$("#employeePayHisRateChangeDate").on('keyup', function (e) {
+    if ($(this).val().length > 0) {
+        $(this).removeClass("border border-danger");
+    }
+});
+$("#employeePayHisRate").on('keyup', function (e) {
+    if ($(this).val().length > 0) {
+        $(this).removeClass("border border-danger");
+    }
+});
+$("#employeePayHisPayFrequency").on('keyup', function (e) {
+    if ($(this).val().length > 0) {
+        $(this).removeClass("border border-danger");
+    }
+});
+
+//EmployeePayHistory Reset
+$("#employeePayHisReset").click(function () {
+    employeePayHisReset();
+});
+function employeePayHisReset() {
+    $('#employeePayHisRateChangeDate').val('');
+    $('#employeePayHisRate').val('');
+    $('#employeePayHisPayFrequency').val('');
+    $('#employeePayHisRateChangeDate').removeClass('border border-danger');
+    $('#employeePayHisRate').removeClass('border border-danger');
+    $('#employeePayHisPayFrequency').removeClass('border border-danger');
+
+    $('#employeePayHisID').val('');
+    $('#employeePayHisSave').text('Save');
+}
+
+//--------------------------------------------------------------------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------------------------------------------------------
+
+//Shift Form Model
+function ShiftModel() {
+    let ShiftID = "", Name = "", StartTime = "", EndTime = "", OperationType = "";
+}
+
+//Shift GET
+$(document).ready(function () {
+    $("#shiftTable").DataTable({
+        "info": false,
+        "lengthChange": false,
+        "drawCallback": function () {
+            shiftReset();
+        },
+        "ajax": {
+            "url": "/HumanResources/GetShift",
+            "type": "GET",
+            "datatype": "json"
+        },
+        "columns": [
+            { "data": "ShiftID" },
+            { "data": "Name" },
+            {
+                "data": "StartTime",
                 "render": function (data) {
                     if (data === null) return "";
-                    return moment(data).format('DD/MM/YYYY');
+                    return moment(data).format('hh:mm:ss');
+                }
+            },
+            {
+                "data": "EndTime",
+                "render": function (data) {
+                    if (data === null) return "";
+                    return moment(data).format('hh:mm:ss');
                 }
             },
             {
@@ -611,8 +820,8 @@ $(document).ready(function () {
                 }
             },
             {
-                "data": "DepartmentID", "render": function (data) {
-                    return "<button type='button' class='btn btn-success btn-sm' onclick=editRowDepartment(" + data + ")><i class='fas fa-edit'></i></button>&nbsp;<div class='btn btn-danger btn-sm' style='cursor:pointer;' onclick=departmentConfirm(" + data + ")><i class='fas fa-trash-alt'></i></div>"
+                "data": "ShiftID", "render": function (data) {
+                    return "<button type='button' class='btn btn-success btn-sm' onclick=editRowShift(" + data + ")><i class='fas fa-edit'></i></button>&nbsp;<div class='btn btn-danger btn-sm' style='cursor:pointer;' onclick=shiftConfirm(" + data + ")><i class='fas fa-trash-alt'></i></div>"
                 },
                 "orderable": false,
                 "searchable": false,
@@ -622,86 +831,179 @@ $(document).ready(function () {
     });
 });
 
-//EmployeeDepartmentHistory Edit Button
+//Shift Edit Button
+function editRowShift(data) {
+    $('#shiftSave').text('Update');
 
-//EmployeeDepartmentHistory Validate
+    $('#shiftTable tbody').on('click', 'tr', function () {
+        $('tr').removeClass('text-primary');
+        $(this).addClass('text-primary');
 
-//EmployeeDepartmentHistory Save
+        $('#shiftName').removeClass('border border-danger');
+        $('#shiftStartTime').removeClass('border border-danger');
+        $('#shiftEndTime').removeClass('border border-danger');
+    });
 
-//EmployeeDepartmentHistory POST
+    $('#shiftTable tbody').on('click', 'button', function () {
+        let table = $('#shiftTable').DataTable();
+        let row = table.row($(this).parents('tr')).data();
 
-//EmployeeDepartmentHistory POST Error
+        $('#shiftName').val(row.Name);
 
-//EmployeeDepartmentHistory POST Success
+        if (row.StartTime === null) {
+            $('#shiftStartTime').val('');
+        }
+        else {
+            $('#shiftStartTime').val(moment(row.StartTime).format("hh:mm:ss"));
+        }
 
-//EmployeeDepartmentHistory DELETE
+        if (row.EndTime === null) {
+            $('#shiftEndTime').val('');
+        }
+        else {
+            $('#shiftEndTime').val(moment(row.EndTime).format("hh:mm:ss"));
+        }
 
-//EmployeeDepartmentHistory Form - Remove red border as user type
+        $('#shiftID').val(data);
+    });
+}
 
-//EmployeeDepartmentHistory Reset
+//Shift Validate
+function validateShift() {
+    let val = true;
 
-//EmployeePayHistory Form Model
+    if ($("#shiftName").val() == "") {
+        $("#shiftName").addClass('border border-danger');
+        val = false;
+    }
+    if ($('#shiftStartTime').val() == "") {
+        $("#shiftStartTime").addClass('border border-danger');
+        val = false;
+    }
+    if ($('#shiftEndTime').val() == "") {
+        $("#shiftEndTime").addClass('border border-danger');
+        val = false;
+    }
 
-//# GET
+    if (val == false) {
+        $("#shiftAlert").show('fade');
+        setTimeout(function () { $("#shiftAlert").hide('fade'); }, 7000);
+    }
 
-//# Edit Button
+    return val;
+}
 
-//# Validate
+//Shift Save
+$('#shiftSave').click(function () {
+    if (validateShift()) {
+        shiftPOST();
+    }
+});
 
-//# Save
+//Shift POST
+function shiftPOST() {
 
-//# POST
+    let viewModel = new ShiftModel();
+    viewModel.ShiftID = $('#shiftID').val();
+    viewModel.Name = $('#shiftName').val();
+    viewModel.StartTime = $('#shiftStartTime').val();
+    viewModel.EndTime = $('#shiftEndTime').val();
 
-//# POST Error
+    viewModel.OperationType = $('#shiftSave').text();
 
-//# POST Success
+    let ljson = JSON.stringify({ SH : viewModel });
 
-//# DELETE
+    $.ajax({
+        url: '/HumanResources/PostShift',
+        type: 'POST',
+        async: 'true',
+        cache: 'false',
+        data: ljson,
+        contentType: 'application/json',
+        beforeSend: function () {
+            $(document).ready(function () {
+                $.blockUI({
+                    message: '<div class="circle"></div><div class="circle1"></div>',
+                    css: {
+                        border: 'none',
+                        padding: '15px',
+                        backgroundColor: '#000',
+                        '-webkit-border-radius': '10px',
+                        '-moz-border-radius': '10px',
+                        opacity: .5,
+                        color: '#fff'
+                    }
+                });
+            });
+        },
+        complete: function () {
+            $.unblockUI();
+        },
+        error: function (xhr, httpStatusMessage, customMessage) {
+            if (xhr.status === 500) {
+                $.unblockUI();
+                $('#errorModalMsg').text(customMessage);
+                $('#errorModal').modal('show');
+                shiftReset();
+            }
+        },
+        success: function () {
+            $.unblockUI();
+            shiftPostSuccess();
+            $('#shiftTable').DataTable().ajax.reload();
+            shiftReset();
+        }
+    });
+}
 
-//# Form - Remove red border as user type
+//Shift POST Success
+function shiftPostSuccess() {
+    $('#shiftPostSuccess').show('fade');
+    setTimeout(function () { $('#shiftPostSuccess').hide('fade'); }, 6000);
+}
 
-//# Reset
+//Shift DELETE
+function shiftConfirm(data) {
+    $('#shiftModal').modal('show');
+    $('#shiftDeleteID').val(data);
+}
+function shiftDelete() {
+    let id = $('#shiftDeleteID').val();
+    $('#shiftID').val(id)
+    $('#shiftSave').text('Delete');
+    shiftPOST();
+}
 
-//Employee Form Model
+//Shift Form - Remove red border as user type
+$("#shiftName").on('keyup', function (e) {
+    if ($(this).val().length > 0) {
+        $(this).removeClass("border border-danger");
+    }
+});
+$("#shiftStartTime").on('keyup', function (e) {
+    if ($(this).val().length > 0) {
+        $(this).removeClass("border border-danger");
+    }
+});
+$("#shiftEndTime").on('keyup', function (e) {
+    if ($(this).val().length > 0) {
+        $(this).removeClass("border border-danger");
+    }
+});
 
-//# GET
+//Shift Reset
+$("#shiftReset").click(function () {
+    shiftReset();
+});
+function shiftReset() {
+    $('#shiftName').val('');
+    $('#shiftStartTime').val('');
+    $('#shiftEndTime').val('');
+    $('#shiftName').removeClass('border border-danger');
+    $('#shiftStartTime').removeClass('border border-danger');
+    $('#shiftEndTime').removeClass('border border-danger');
 
-//# Edit Button
+    $('#shiftID').val('');
+    $('#shiftSave').text('Save');
+}
 
-//# Validate
-
-//# Save
-
-//# POST
-
-//# POST Error
-
-//# POST Success
-
-//# DELETE
-
-//# Form - Remove red border as user type
-
-//# Reset
-
-//Employee Form Model
-
-//# GET
-
-//# Edit Button
-
-//# Validate
-
-//# Save
-
-//# POST
-
-//# POST Error
-
-//# POST Success
-
-//# DELETE
-
-//# Form - Remove red border as user type
-
-//# Reset

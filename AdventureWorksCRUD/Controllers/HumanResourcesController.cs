@@ -153,16 +153,124 @@ namespace AdventureWorksCRUD.Controllers
 
         #endregion
 
-        #region "Employee Department History"
+        #region "Employee Pay History"
 
         [HttpGet]
-        public ActionResult GetEmployeeDeptHis()
+        public ActionResult GetEmployeePayHis()
         {
             using (dbConn ef = new dbConn())
             {
-                List<EmployeeDepartmentHistory> list = ef.EmployeeDepartmentHistory.ToList();
+                List<EmployeePayHistory> list = ef.EmployeePayHistory.ToList();
                 return Json(new { data = list }, JsonRequestBehavior.AllowGet);
             }
+        }
+
+        [HttpPost]
+        public ActionResult PostEmployeePayHis(EmployeePayHistory EPH)
+        {
+            try
+            {
+                using (dbConn ef = new dbConn())
+                {
+                    EmployeePayHistory eph = new EmployeePayHistory();
+
+                    if (EPH.OperationType == "Save")
+                    {
+                        int Id = Convert.ToInt32(ef.EmployeePayHistory.Max(field => (int?)field.BusinessEntityID) + 1 ?? 1);
+                        eph.BusinessEntityID = Id;
+                        eph.RateChangeDate = EPH.RateChangeDate;
+                        eph.Rate = EPH.Rate;
+                        eph.PayFrequency = EPH.PayFrequency;
+                        eph.ModifiedDate = DateTime.Now;
+
+                        ef.EmployeePayHistory.Add(eph);
+                        ef.SaveChanges();
+                    }
+
+                    if (EPH.OperationType == "Update")
+                    {
+                        eph = ef.EmployeePayHistory.First(row => row.BusinessEntityID == EPH.BusinessEntityID);
+                        eph.RateChangeDate = EPH.RateChangeDate;
+                        eph.Rate = EPH.Rate;
+                        eph.PayFrequency = EPH.PayFrequency;
+                        eph.ModifiedDate = DateTime.Now;
+                        ef.SaveChanges();
+                    }
+
+                    if (EPH.OperationType == "Delete")
+                    {
+                        eph = ef.EmployeePayHistory.FirstOrDefault(row => row.BusinessEntityID == EPH.BusinessEntityID);
+                        ef.EmployeePayHistory.Remove(eph);
+                        ef.SaveChanges();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return new HttpStatusCodeResult(500, " :( Something bad happened: " + ex.Message);
+            }
+            return Json(new { success = true, Message = "Successful", JsonRequestBehavior.AllowGet });
+        }
+
+        #endregion
+
+        #region "Shift"
+
+        [HttpGet]
+        public ActionResult GetShift()
+        {
+            using (dbConn ef = new dbConn())
+            {
+                List<Shift> list = ef.Shift.ToList();
+                return Json(new { data = list }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [HttpPost]
+        public ActionResult PostShift(Shift SH)
+        {
+            try
+            {
+                using (dbConn ef = new dbConn())
+                {
+                    Shift sh = new Shift();
+
+                    if (SH.OperationType == "Save")
+                    {
+                        byte Id = Convert.ToByte(ef.Shift.Max(field => (byte?)field.ShiftID) + 1 ?? 1);
+                        sh.ShiftID = Id;
+                        sh.Name = SH.Name;
+                        sh.StartTime = SH.StartTime;
+                        sh.EndTime = SH.EndTime;
+                        sh.ModifiedDate = DateTime.Now;
+
+                        ef.Shift.Add(sh);
+                        ef.SaveChanges();
+                    }
+
+                    if (SH.OperationType == "Update")
+                    {
+                        sh = ef.Shift.First(row => row.ShiftID == SH.ShiftID);
+                        sh.Name = SH.Name;
+                        sh.StartTime = SH.StartTime;
+                        sh.EndTime = SH.EndTime;
+                        sh.ModifiedDate = DateTime.Now;
+                        ef.SaveChanges();
+                    }
+
+                    if (SH.OperationType == "Delete")
+                    {
+                        sh = ef.Shift.FirstOrDefault(row => row.ShiftID == SH.ShiftID);
+                        ef.Shift.Remove(sh);
+                        ef.SaveChanges();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return new HttpStatusCodeResult(500, " :( Something bad happened: " + ex.Message);
+            }
+            return Json(new { success = true, Message = "Successful", JsonRequestBehavior.AllowGet });
         }
 
         #endregion
