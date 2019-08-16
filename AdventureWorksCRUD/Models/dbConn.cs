@@ -243,10 +243,10 @@ namespace AdventureWorksCRUD.Models
                 .Property(e => e.StateProvinceCode)
                 .IsFixedLength();
 
-            modelBuilder.Entity<StateProvince>()
-                .HasMany(e => e.Address)
-                .WithRequired(e => e.StateProvince)
-                .WillCascadeOnDelete(false);
+            //modelBuilder.Entity<StateProvince>()
+            //    .HasMany(e => e.Address)
+            //    .WithRequired(e => e.StateProvince)
+            //    .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<StateProvince>()
                 .HasMany(e => e.SalesTaxRate)

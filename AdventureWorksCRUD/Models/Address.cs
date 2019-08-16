@@ -23,8 +23,11 @@ namespace AdventureWorksCRUD.Models
         [StringLength(60)]
         public string AddressLine1 { get; set; }
 
-        [StringLength(60)]
-        public string AddressLine2 { get; set; }
+        //private string _AddressLine2;
+
+        //[StringLength(60)]
+        //public string AddressLine2 { get; set; }
+        //public string AddressLine2 { get { return _AddressLine2 ?? String.Empty; } set { } }
 
         [Required]
         [StringLength(30)]
@@ -42,15 +45,18 @@ namespace AdventureWorksCRUD.Models
 
         public DateTime ModifiedDate { get; set; }
 
-        public virtual StateProvince StateProvince { get; set; }
+        //public virtual StateProvince StateProvince { internal get; set; }
+        
+        //[NotMapped]
+        //public string OperationType { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<BusinessEntityAddress> BusinessEntityAddress { get; set; }
+        public virtual ICollection<BusinessEntityAddress> BusinessEntityAddress { internal get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SalesOrderHeader> SalesOrderHeader { get; set; }
+        public virtual ICollection<SalesOrderHeader> SalesOrderHeader { internal get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SalesOrderHeader> SalesOrderHeader1 { get; set; }
+        public virtual ICollection<SalesOrderHeader> SalesOrderHeader1 { internal get; set; }
     }
 }

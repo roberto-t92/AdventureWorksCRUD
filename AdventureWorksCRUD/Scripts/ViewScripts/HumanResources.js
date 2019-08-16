@@ -91,9 +91,9 @@ $('#departmentSave').click(function () {
 function departmentPOST() {
 
     let LDepartmentModel = new DepartmentModel();
+    LDepartmentModel.DepartmentID = $('#departmentID').val();
     LDepartmentModel.Name = $('#departmentName').val();
     LDepartmentModel.GroupName = $('#departmentGroupName').val();
-    LDepartmentModel.DepartmentID = $('#departmentID').val();
     LDepartmentModel.OperationType = $('#departmentSave').text();
 
     let ljson = JSON.stringify({ DM: LDepartmentModel });
