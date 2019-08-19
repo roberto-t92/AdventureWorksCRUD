@@ -1,0 +1,70 @@
+﻿
+@{
+    ViewBag.Title = "Person";
+}
+
+<h2 class="d-flex justify-content-end">Person</h2>
+
+<!-- Address -->
+<div class="row">
+    <!-- Form -->
+    <div class="col">
+        <h3 class="row d-flex justify-content-center">Address</h3>
+        <form>
+            <input type="hidden" id="addressID" />
+            <div class="form-group row">
+                <div id="addressAlert" class="alert alert-danger alert-dismissible collapse" role="alert" style="width:100%;">Error: There are required empty fields.<a href="#" class="close" data-dismiss="alert">&times;</a></div>
+                <div id="addressPostSuccess" class="alert alert-primary alert-dismissible collapse" role="alert" style="width:100%;">Data saved successfully.<a href="#" class="close" data-dismiss="alert">&times;</a></div>
+            </div>
+            <div class="form-group row">
+                <input id="addressLine1" type="text" placeholder="Address 1 *" class="form-control form-control-sm" />
+            </div>
+            <div class="form-group row">
+                <input id="addressLine2" type="text" placeholder="Address 2" class="form-control form-control-sm" />
+            </div>
+            <div class="form-group row">
+                <input id="addressCity" type="text" placeholder="City *" class="form-control form-control-sm" />
+            </div>
+            <div class="form-group row">
+                <input id="addressPostalCode" type="text" placeholder="Postal Code *" class="form-control form-control-sm" />
+            </div>
+            <div class="form-group row">
+                <input id="addressSpatialLocation" type="text" placeholder="Spatial Location *" class="form-control form-control-sm" />
+            </div>
+            <div class="form-group row">
+                <input id="addressRowguid" type="text" placeholder="row guid *" class="form-control form-control-sm" />
+            </div>
+            <div class="form-group row d-flex justify-content-center">
+                <button id="addressSave" type="button" class="btn btn-warning btn-sm col-md-3" style="margin:0 15px;">Save</button>
+                <button id="addressReset" type="button" class="btn btn-info btn-sm col-md-1" style="margin:0 15px;"><i class="fas fa-sync-alt"></i></button>
+            </div>
+            <label style="font-size:11px;">* Required values.</label>
+        </form>
+    </div>
+    <!-- Table -->
+    <div class="col col-md-8">
+        <div class="pagination pagination-sm">
+            <div class="table-responsive">
+                <table id="addressTable" class="table table-sm table-bordered table-hover">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>ID&nbsp;&nbsp;</th>
+                            <th>Address 1</th>
+                            <th>Address 2</th>
+                            <th>City</th>
+                            <th>State Province ID</th>
+                            <th>Postal Code</th>
+                            <th>Spatial Location</th>
+                            <th>row guid</th>
+                            <th>Modified Date</th>
+                            <th>Edit</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div style="height:100px;"></div>
+
+<script src="~/Scripts/ViewScripts/Person.js"></script>
