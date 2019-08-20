@@ -105,7 +105,7 @@ namespace AdventureWorksCRUD.Controllers
                     {
                         int Id = Convert.ToInt32(ef.Person.Max(field => (int?)field.BusinessEntityID) + 1 ?? 1);
                         per.BusinessEntityID = Id;
-
+                        bss.BusinessEntityID = Id;
                         per.PersonType = PE.PersonType;
                         per.NameStyle = PE.NameStyle;
                         per.Title = PE.Title;
@@ -115,7 +115,10 @@ namespace AdventureWorksCRUD.Controllers
                         per.Suffix = PE.Suffix;
                         per.EmailPromotion = PE.EmailPromotion;
                         per.rowguid = PE.rowguid;
+                        bss.rowguid = PE.rowguid;
                         per.ModifiedDate = DateTime.Now;
+                        bss.ModifiedDate = DateTime.Now;
+                        ef.BusinessEntity.Add(bss);
                         ef.Person.Add(per);
                         ef.SaveChanges();
                     }
@@ -140,6 +143,62 @@ namespace AdventureWorksCRUD.Controllers
                     {
                         per = ef.Person.FirstOrDefault(row => row.BusinessEntityID == PE.BusinessEntityID);
                         ef.Person.Remove(per);
+                        ef.SaveChanges();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return new HttpStatusCodeResult(500, " :( Something bad happened: " + ex.Message);
+            }
+            return Json(new { success = true, Message = "Successful", JsonRequestBehavior.AllowGet });
+        }
+
+        #endregion
+
+        #region "Contact Type"
+
+        [HttpGet]
+        public ActionResult GetContactType()
+        {
+            using (dbConn ef = new dbConn())
+            {
+                List<ContactType> list = ef.ContactType.ToList();
+                return Json(new { data = list }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [HttpPost]
+        public ActionResult PostContactType(ContactType CT)
+        {
+            try
+            {
+                using (dbConn ef = new dbConn())
+                {
+                    ContactType ct = new ContactType();
+
+                    if (CT.OperationType == "Save")
+                    {
+                        int Id = Convert.ToInt32(ef.ContactType.Max(field => (int?)field.ContactTypeID) + 1 ?? 1);
+                        ct.ContactTypeID = Id;
+                        ct.Name = CT.Name;
+                        ct.ModifiedDate = DateTime.Now;
+                        ef.ContactType.Add(ct);
+                        ef.SaveChanges();
+                    }
+
+                    if (CT.OperationType == "Update")
+                    {
+                        ct = ef.ContactType.First(row => row.ContactTypeID == CT.ContactTypeID);
+                        ct.Name = CT.Name;
+                        ct.ModifiedDate = DateTime.Now;
+                        ef.SaveChanges();
+                    }
+
+                    if (CT.OperationType == "Delete")
+                    {
+                        ct = ef.ContactType.FirstOrDefault(row => row.ContactTypeID == CT.ContactTypeID);
+                        ef.ContactType.Remove(ct);
                         ef.SaveChanges();
                     }
                 }

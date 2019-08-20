@@ -78,10 +78,12 @@
                 <div id="personPostSuccess" class="alert alert-primary alert-dismissible collapse" role="alert" style="width:100%;">Data saved successfully.<a href="#" class="close" data-dismiss="alert">&times;</a></div>
             </div>
             <div class="form-group row">
-                <input id="personPersonType" type="text" placeholder="Person Type *" class="form-control form-control-sm" />
-            </div>
-            <div class="form-group row">
-                <input id="personNameStyle" type="text" placeholder="Name Style *" class="form-control form-control-sm" />
+                <div class="col" style="padding-left:0;">
+                    <input id="personPersonType" type="text" placeholder="Person Type *" class="form-control form-control-sm"/>
+                </div>
+                <div class="col"   style="padding-right:0;">
+                    <input id="personNameStyle" type="text" placeholder="Name Style *" class="form-control form-control-sm"/>
+                </div>
             </div>
             <div class="form-group row">
                 <input id="personTitle" type="text" placeholder="Title" class="form-control form-control-sm" />
@@ -130,6 +132,47 @@
                             <th class="md-col">row guid</th>
                             <th class="xm-col">Modified Date</th>
                             <th class="xm-col">Edit</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div style="height:100px;"></div>
+
+<!-- Contact Type -->
+<div class="row">
+    <!-- Form -->
+    <div class="col">
+        <h3 class="row d-flex justify-content-center">Contact Type</h3>
+        <form>
+            <input type="hidden" id="contactTypeID" />
+            <div class="form-group row">
+                <div id="contactTypeAlert" class="alert alert-danger alert-dismissible collapse" role="alert" style="width:100%;">Error: There are required empty fields.<a href="#" class="close" data-dismiss="alert">&times;</a></div>
+                <div id="contactTypeSuccess" class="alert alert-primary alert-dismissible collapse" role="alert" style="width:100%;">Data saved successfully.<a href="#" class="close" data-dismiss="alert">&times;</a></div>
+            </div>
+            <div class="form-group row">
+                <input id="contactTypeName" type="text" placeholder="Name *" class="form-control form-control-sm" />
+            </div>
+            <div class="form-group row d-flex justify-content-center">
+                <button id="contactTypeSave" type="button" class="btn btn-warning btn-sm col-md-3" style="margin:0 15px;">Save</button>
+                <button id="contactTypeReset" type="button" class="btn btn-info btn-sm col-md-1" style="margin:0 15px;"><i class="fas fa-sync-alt"></i></button>
+            </div>
+            <label style="font-size:11px;">* Required values.</label>
+        </form>
+    </div>
+    <!-- Table -->
+    <div class="col col-md-8">
+        <div class="pagination pagination-sm">
+            <div class="table-responsive">
+                <table id="contactTypeTable" class="table table-sm table-bordered table-hover">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>ID&nbsp;&nbsp;</th>
+                            <th>Name</th>
+                            <th>Modified Date</th>
+                            <th>Edit</th>
                         </tr>
                     </thead>
                 </table>
@@ -201,5 +244,27 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="contactTypeModal" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirm</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="contactTypeDeleteID" />
+                <p>Are you sure you want to delete this record?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn btn-danger" onclick="contactTypeDelete()">Yes</button>
+                <button type="button" data-dismiss="modal" class="btn btn-primary">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <script src="~/Scripts/ViewScripts/Person.js"></script>

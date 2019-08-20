@@ -24,7 +24,10 @@ namespace AdventureWorksCRUD.Models
 
         public DateTime ModifiedDate { get; set; }
 
+        [NotMapped]
+        public string OperationType { get; set; }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ProductModelProductDescriptionCulture> ProductModelProductDescriptionCulture { get; set; }
+        public virtual ICollection<ProductModelProductDescriptionCulture> ProductModelProductDescriptionCulture { internal get; set; }
     }
 }

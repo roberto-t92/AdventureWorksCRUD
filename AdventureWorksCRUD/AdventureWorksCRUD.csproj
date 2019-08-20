@@ -273,6 +273,7 @@
     <Content Include="Scripts\umd\popper.min.js" />
     <Content Include="Scripts\ViewScripts\HumanResources.js" />
     <Content Include="Scripts\ViewScripts\Person.js" />
+    <Content Include="Scripts\ViewScripts\Production.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -296,10 +297,10 @@
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\HumanResources\HumanResources.cshtml" />
     <Content Include="Views\Person\Person.cshtml" />
+    <Content Include="Views\Production\Production.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Production\" />
     <Folder Include="Views\Purchasing\" />
     <Folder Include="Views\Sales\" />
   </ItemGroup>

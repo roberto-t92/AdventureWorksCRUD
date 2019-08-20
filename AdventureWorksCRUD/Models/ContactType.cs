@@ -23,7 +23,10 @@ namespace AdventureWorksCRUD.Models
 
         public DateTime ModifiedDate { get; set; }
 
+        [NotMapped]
+        public string OperationType { get; set; }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<BusinessEntityContact> BusinessEntityContact { get; set; }
+        public virtual ICollection<BusinessEntityContact> BusinessEntityContact { internal get; set; }
     }
 }

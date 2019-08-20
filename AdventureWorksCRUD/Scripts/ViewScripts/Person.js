@@ -384,7 +384,7 @@ function validatePerson() {
     return val;
 }
 
-//Address Save
+//Person Save
 $('#personSave').click(function () {
     if (validatePerson()) {
         personPOST();
@@ -531,4 +531,183 @@ function personReset() {
     $('#personID').val('');
     $('#personDeleteID').val('');
     $('#personSave').text('Save');
+};
+
+//--------------------------------------------------------------------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------------------------------------------------------
+
+//ContactType Form Model
+function ContactTypeModel() {
+    let ContactTypeID = "", Name = "", OperationType = "";
+}
+
+//ContactType GET
+$(document).ready(function () {
+    $("#contactTypeTable").DataTable({
+        "info": false,
+        "lengthChange": false,
+        "drawCallback": function () {
+            contactTypeReset();
+        },
+        "ajax": {
+            "url": "/Person/GetContactType",
+            "type": "GET",
+            "datatype": "json"
+        },
+        "columns": [
+            { "data": "ContactTypeID" },
+            { "data": "Name" },
+            {
+                "data": "ModifiedDate",
+                "render": function (data) {
+                    if (data === null) return "";
+                    return moment(data).format('DD/MM/YYYY');
+                }
+            },
+            {
+                "data": "ContactTypeID", "render": function (data) {
+                    return "<button type='button' class='btn btn-success btn-sm' onclick=editRowContactType(" + data + ")><i class='fas fa-edit'></i></button>&nbsp;<div class='btn btn-danger btn-sm' style='cursor:pointer;' onclick=contactTypeConfirm(" + data + ")><i class='fas fa-trash-alt'></i></div>"
+                },
+                "orderable": false,
+                "searchable": false,
+                "className": 'text-center'
+            }
+        ]
+    });
+});
+
+//ContactType Edit Button
+function editRowContactType(data) {
+    $('#contactTypeSave').text('Update');
+
+    $('#contactTypeTable tbody').on('click', 'tr', function () {
+        $('tr').removeClass('text-primary');
+        $(this).addClass('text-primary');
+        $('#contactTypeName').removeClass('border border-danger');
+    });
+
+    $('#contactTypeTable tbody').on('click', 'button', function () {
+        let table = $('#contactTypeTable').DataTable();
+        let row = table.row($(this).parents('tr')).data();
+
+        $('#contactTypeName').val(row.Name);
+        $('#contactTypeID').val(data);
+    });
+}
+
+//ContactType Validate
+function validateContactType() {
+    let val = true;
+
+    if ($("#contactTypeName").val() == "") {
+        $("#contactTypeName").addClass('border border-danger');
+        val = false;
+    }
+
+    if (val == false) {
+        $("#contactTypeAlert").show('fade');
+        setTimeout(function () { $("#contactTypeAlert").hide('fade'); }, 7000);
+    }
+
+    return val;
+}
+
+//ContactType Save
+$('#contactTypeSave').click(function () {
+    if (validateContactType()) {
+        contactTypePOST();
+    }
+});
+
+//ContactType POST
+function contactTypePOST() {
+
+    let viewModel = new ContactTypeModel();
+    viewModel.ContactTypeID = $('#contactTypeID').val();
+    viewModel.Name = $('#contactTypeName').val();
+    viewModel.OperationType = $('#contactTypeSave').text();
+
+    let ljson = JSON.stringify({ CT: viewModel });
+
+    $.ajax({
+        url: '/Person/PostContactType',
+        type: 'POST',
+        async: 'true',
+        cache: 'false',
+        data: ljson,
+        contentType: 'application/json',
+        beforeSend: function () {
+            $(document).ready(function () {
+                $.blockUI({
+                    message: '<div class="circle"></div><div class="circle1"></div>',
+                    css: {
+                        border: 'none',
+                        padding: '15px',
+                        backgroundColor: '#000',
+                        '-webkit-border-radius': '10px',
+                        '-moz-border-radius': '10px',
+                        opacity: .5,
+                        color: '#fff'
+                    }
+                });
+            });
+        },
+        complete: function () {
+            $.unblockUI();
+        },
+        error: function (xhr, httpStatusMessage, customMessage) {
+            if (xhr.status === 500) {
+                $.unblockUI();
+                $('#errorModalMsg').text(customMessage);
+                $('#errorModal').modal('show');
+                contactTypeReset();
+            }
+        },
+        success: function () {
+            $.unblockUI();
+            contactTypePostSuccess();
+            $('#contactTypeTable').DataTable().ajax.reload();
+            contactTypeReset();
+        }
+    });
+}
+
+//ContactType POST - Success
+function contactTypePostSuccess() {
+    $('#contactTypeSuccess').show('fade');
+    setTimeout(function () { $('#contactTypeSuccess').hide('fade'); }, 6000);
+}
+
+//ContactType DELETE
+function contactTypeConfirm(data) {
+    $('#contactTypeModal').modal('show');
+    $('#contactTypeDeleteID').val(data);
+}
+function contactTypeDelete() {
+    let id = $('#contactTypeDeleteID').val();
+    $('#contactTypeID').val(id)
+    $('#contactTypeSave').text('Delete');
+    contactTypePOST();
+}
+
+//ContactType Form - Remove red border as user type
+$("#contactTypeName").on('keyup', function (e) {
+    if ($(this).val().length > 0) {
+        $(this).removeClass("border border-danger");
+    }
+});
+
+//ContactType Reset
+$("#contactTypeReset").click(function () {
+    contactTypeReset();
+});
+function contactTypeReset() {
+    $('#contactTypeName').val('');
+    $('#contactTypeName').removeClass('border border-danger');
+
+    $('#contactTypeTable tr').removeClass('text-primary');
+
+    $('#contactTypeID').val('');
+    $('#contactTypeDeleteID').val('');
+    $('#contactTypeSave').text('Save');
 };
