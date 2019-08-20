@@ -129,6 +129,11 @@ table#addressTable {
     table-layout:fixed;
 }
 
+/* Person table */
+table#personTable {
+    table-layout:fixed;
+}
+
 .md-col {
     width:150px !important;
 }

@@ -264,7 +264,7 @@ $(document).ready(function () {
         "info": false,
         "lengthChange": false,
         "drawCallback": function () {
-            //personReset();
+            personReset();
         },
         "ajax": {
             "url": "/Person/GetPerson",
@@ -300,3 +300,235 @@ $(document).ready(function () {
         ]
     });
 });
+
+//Person Edit Button
+function editRowPerson(data) {
+    $('#personSave').text('Update');
+
+    $('#personTable tbody').on('click', 'tr', function () {
+        $('tr').removeClass('text-primary');
+        $(this).addClass('text-primary');
+        $('#personPersonType').removeClass('border border-danger');
+        $('#personNameStyle').removeClass('border border-danger');
+        $('#personFirstName').removeClass('border border-danger');
+        $('#personLastName').removeClass('border border-danger');
+        $('#personEmailPromotion').removeClass('border border-danger');
+        $('#personRowguid').removeClass('border border-danger');
+    });
+
+    $('#personTable tbody').on('click', 'button', function () {
+        let table = $('#personTable').DataTable();
+        let row = table.row($(this).parents('tr')).data();
+
+        $('#personPersonType').val(row.PersonType);
+        $('#personNameStyle').val(row.NameStyle);
+
+        $('#personTitle').val(row.Title);
+        if ($('#personTitle').val() == "") {
+            $('#personTitle').attr("placeholder", '');
+        }
+
+        $('#personFirstName').val(row.FirstName);
+
+        $('#personMiddleName').val(row.MiddleName);
+        if ($('#personMiddleName').val() == "") {
+            $('#personMiddleName').attr("placeholder", '');
+        }
+
+        $('#personLastName').val(row.LastName);
+
+        $('#personSuffix').val(row.Suffix);
+        if ($('#personSuffix').val() == "") {
+            $('#personSuffix').attr("placeholder", '');
+        }
+        $('#personEmailPromotion').val(row.EmailPromotion);
+        $('#personRowguid').val(row.rowguid);
+        $('#personID').val(data);
+    });
+}
+
+//Person Validate
+function validatePerson() {
+    let val = true;
+
+    if ($("#personPersonType").val() == "") {
+        $("#personPersonType").addClass('border border-danger');
+        val = false;
+    }
+    if ($('#personNameStyle').val() == "") {
+        $("#personNameStyle").addClass('border border-danger');
+        val = false;
+    }
+    if ($('#personFirstName').val() == "") {
+        $("#personFirstName").addClass('border border-danger');
+        val = false;
+    }
+    if ($('#personLastName').val() == "") {
+        $("#personLastName").addClass('border border-danger');
+        val = false;
+    }
+    if ($('#personEmailPromotion').val() == "") {
+        $('#personEmailPromotion').addClass('border border-danger');
+        val = false;
+    }
+    if ($('#personRowguid').val() == "") {
+        $('#personRowguid').addClass('border border-danger');
+        val = false;
+    }
+
+    if (val == false) {
+        $("#personAlert").show('fade');
+        setTimeout(function () { $("#personAlert").hide('fade'); }, 7000);
+    }
+
+    return val;
+}
+
+//Address Save
+$('#personSave').click(function () {
+    if (validatePerson()) {
+        personPOST();
+    }
+});
+
+//Person POST
+function personPOST() {
+
+    let viewModel = new PersonModel();
+    viewModel.BusinessEntityID = $('#personID').val();
+    viewModel.PersonType = $('#personPersonType').val();
+    viewModel.NameStyle = $('#personNameStyle').val();
+    viewModel.Title = $('#personTitle').val();
+    viewModel.FirstName = $('#personFirstName').val();
+    viewModel.MiddleName = $('#personMiddleName').val();
+    viewModel.LastName = $('#personLastName').val();
+    viewModel.Suffix = $('#personSuffix').val();
+    viewModel.EmailPromotion = $('#personEmailPromotion').val();
+    viewModel.rowguid = $('#personRowguid').val();
+    viewModel.OperationType = $('#personSave').text();
+
+    let ljson = JSON.stringify({ PE: viewModel });
+
+    $.ajax({
+        url: '/Person/PostPerson',
+        type: 'POST',
+        async: 'true',
+        cache: 'false',
+        data: ljson,
+        contentType: 'application/json',
+        beforeSend: function () {
+            $(document).ready(function () {
+                $.blockUI({
+                    message: '<div class="circle"></div><div class="circle1"></div>',
+                    css: {
+                        border: 'none',
+                        padding: '15px',
+                        backgroundColor: '#000',
+                        '-webkit-border-radius': '10px',
+                        '-moz-border-radius': '10px',
+                        opacity: .5,
+                        color: '#fff'
+                    }
+                });
+            });
+        },
+        complete: function () {
+            $.unblockUI();
+        },
+        error: function (xhr, httpStatusMessage, customMessage) {
+            if (xhr.status === 500) {
+                $.unblockUI();
+                $('#errorModalMsg').text(customMessage);
+                $('#errorModal').modal('show');
+                personReset();
+            }
+        },
+        success: function () {
+            $.unblockUI();
+            personPostSuccess();
+            $('#personTable').DataTable().ajax.reload();
+            personReset();
+        }
+    });
+}
+
+//Person POST - Success
+function personPostSuccess() {
+    $('#personPostSuccess').show('fade');
+    setTimeout(function () { $('#personPostSuccess').hide('fade'); }, 6000);
+}
+
+//Person DELETE
+function personConfirm(data) {
+    $('#personModal').modal('show');
+    $('#personDeleteID').val(data);
+}
+function personDelete() {
+    let id = $('#personDeleteID').val();
+    $('#personID').val(id)
+    $('#personSave').text('Delete');
+    personPOST();
+}
+
+//Person Form - Remove red border as user type
+$("#personPersonType").on('keyup', function (e) {
+    if ($(this).val().length > 0) {
+        $(this).removeClass("border border-danger");
+    }
+});
+$("#personNameStyle").on('keyup', function (e) {
+    if ($(this).val().length > 0) {
+        $(this).removeClass("border border-danger");
+    }
+});
+$("#personFirstName").on('keyup', function (e) {
+    if ($(this).val().length > 0) {
+        $(this).removeClass("border border-danger");
+    }
+});
+$("#personLastName").on('keyup', function (e) {
+    if ($(this).val().length > 0) {
+        $(this).removeClass("border border-danger");
+    }
+});
+$("#personEmailPromotion").on('keyup', function (e) {
+    if ($(this).val().length > 0) {
+        $(this).removeClass("border border-danger");
+    }
+});
+$("#personRowguid").on('keyup', function (e) {
+    if ($(this).val().length > 0) {
+        $(this).removeClass("border border-danger");
+    }
+});
+
+//Person Reset
+$("#personReset").click(function () {
+    personReset();
+});
+function personReset() {
+    $('#personPersonType').val('');
+    $('#personNameStyle').val('');
+    $('#personTitle').val('');
+    $('#personTitle').attr('placeholder', 'Title');
+    $('#personFirstName').val('');
+    $('#personMiddleName').val('');
+    $('#personMiddleName').attr('placeholder', 'Middle Name');
+    $('#personLastName').val('');
+    $('#personSuffix').val('');
+    $('#personSuffix').attr('placeholder', 'Suffix');
+    $('#personEmailPromotion').val('');
+    $('#personRowguid').val('');
+    $('#personPersonType').removeClass('border border-danger');
+    $('#personNameStyle').removeClass('border border-danger');
+    $('#personFirstName').removeClass('border border-danger');
+    $('#personLastName').removeClass('border border-danger');
+    $('#personEmailPromotion').removeClass('border border-danger');
+    $('#personRowguid').removeClass('border border-danger');
+
+    $('#personTable tr').removeClass('text-primary');
+
+    $('#personID').val('');
+    $('#personDeleteID').val('');
+    $('#personSave').text('Save');
+};

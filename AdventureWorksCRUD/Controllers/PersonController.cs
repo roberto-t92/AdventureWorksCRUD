@@ -37,7 +37,7 @@ namespace AdventureWorksCRUD.Controllers
 
                     if (AD.OperationType == "Save")
                     {
-                        int Id = Convert.ToInt16(ef.Address.Max(field => (int?)field.AddressID) + 1 ?? 1);
+                        int Id = Convert.ToInt32(ef.Address.Max(field => (int?)field.AddressID) + 1 ?? 1);
                         addr.AddressID = Id;
                         addr.AddressLine1 = AD.AddressLine1;
                         addr.AddressLine2 = AD.AddressLine2;
@@ -89,6 +89,66 @@ namespace AdventureWorksCRUD.Controllers
                 List<Person> list = (from tabla in ef.Person orderby tabla.BusinessEntityID descending select tabla).Take(100).ToList();
                 return Json(new { data = list }, JsonRequestBehavior.AllowGet);
             }
+        }
+
+        [HttpPost]
+        public ActionResult PostPerson(Person PE)
+        {
+            try
+            {
+                using (dbConn ef = new dbConn())
+                {
+                    Person per = new Person();
+                    BusinessEntity bss = new BusinessEntity();
+
+                    if (PE.OperationType == "Save")
+                    {
+                        int Id = Convert.ToInt32(ef.Person.Max(field => (int?)field.BusinessEntityID) + 1 ?? 1);
+                        per.BusinessEntityID = Id;
+
+                        per.PersonType = PE.PersonType;
+                        per.NameStyle = PE.NameStyle;
+                        per.Title = PE.Title;
+                        per.FirstName = PE.FirstName;
+                        per.MiddleName = PE.MiddleName;
+                        per.LastName = PE.LastName;
+                        per.Suffix = PE.Suffix;
+                        per.EmailPromotion = PE.EmailPromotion;
+                        per.rowguid = PE.rowguid;
+                        per.ModifiedDate = DateTime.Now;
+                        ef.Person.Add(per);
+                        ef.SaveChanges();
+                    }
+
+                    if (PE.OperationType == "Update")
+                    {
+                        per = ef.Person.First(row => row.BusinessEntityID == PE.BusinessEntityID);
+                        per.PersonType = PE.PersonType;
+                        per.NameStyle = PE.NameStyle;
+                        per.Title = PE.Title;
+                        per.FirstName = PE.FirstName;
+                        per.MiddleName = PE.MiddleName;
+                        per.LastName = PE.LastName;
+                        per.Suffix = PE.Suffix;
+                        per.EmailPromotion = PE.EmailPromotion;
+                        per.rowguid = PE.rowguid;
+                        per.ModifiedDate = DateTime.Now;
+                        ef.SaveChanges();
+                    }
+
+                    if (PE.OperationType == "Delete")
+                    {
+                        per = ef.Person.FirstOrDefault(row => row.BusinessEntityID == PE.BusinessEntityID);
+                        ef.Person.Remove(per);
+                        ef.SaveChanges();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return new HttpStatusCodeResult(500, " :( Something bad happened: " + ex.Message);
+            }
+            return Json(new { success = true, Message = "Successful", JsonRequestBehavior.AllowGet });
         }
 
         #endregion
