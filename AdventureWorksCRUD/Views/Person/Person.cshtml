@@ -26,10 +26,10 @@
                 <input id="addressCity" type="text" placeholder="City *" class="form-control form-control-sm" />
             </div>
             <div class="form-group row">
-                <input id="addressPostalCode" type="text" placeholder="Postal Code *" class="form-control form-control-sm" />
+                <input id="addressStateProvinceID" type="text" placeholder="State Province ID *" class="form-control form-control-sm" />
             </div>
             <div class="form-group row">
-                <input id="addressSpatialLocation" type="text" placeholder="Spatial Location *" class="form-control form-control-sm" />
+                <input id="addressPostalCode" type="text" placeholder="Postal Code *" class="form-control form-control-sm" />
             </div>
             <div class="form-group row">
                 <input id="addressRowguid" type="text" placeholder="row guid *" class="form-control form-control-sm" />
@@ -49,15 +49,14 @@
                     <thead class="thead-light">
                         <tr>
                             <th>ID&nbsp;&nbsp;</th>
-                            <th>Address 1</th>
-                            <th>Address 2</th>
-                            <th>City</th>
-                            <th>State Province ID</th>
-                            <th>Postal Code</th>
-                            <th>Spatial Location</th>
-                            <th>row guid</th>
-                            <th>Modified Date</th>
-                            <th>Edit</th>
+                            <th class="md-col">Address 1</th>
+                            <th class="xm-col">Address 2</th>
+                            <th class="xm-col">City</th>
+                            <th class="md-col">State Province ID</th>
+                            <th class="xm-col">Postal Code</th>
+                            <th class="md-col">row guid</th>
+                            <th class="xm-col">Modified Date</th>
+                            <th class="xm-col">Edit</th>
                         </tr>
                     </thead>
                 </table>
@@ -66,5 +65,141 @@
     </div>
 </div>
 <div style="height:100px;"></div>
+
+<!-- Person -->
+<div class="row">
+    <!-- Form -->
+    <div class="col">
+        <h3 class="row d-flex justify-content-center">Person</h3>
+        <form>
+            <input type="hidden" id="personID" />
+            <div class="form-group row">
+                <div id="personAlert" class="alert alert-danger alert-dismissible collapse" role="alert" style="width:100%;">Error: There are required empty fields.<a href="#" class="close" data-dismiss="alert">&times;</a></div>
+                <div id="personPostSuccess" class="alert alert-primary alert-dismissible collapse" role="alert" style="width:100%;">Data saved successfully.<a href="#" class="close" data-dismiss="alert">&times;</a></div>
+            </div>
+            <div class="form-group row">
+                <input id="personPersonType" type="text" placeholder="Person Type *" class="form-control form-control-sm" />
+            </div>
+            <div class="form-group row">
+                <input id="personNameStyle" type="text" placeholder="Name Style *" class="form-control form-control-sm" />
+            </div>
+            <div class="form-group row">
+                <input id="personTitle" type="text" placeholder="Title" class="form-control form-control-sm" />
+            </div>
+            <div class="form-group row">
+                <input id="personFirstName" type="text" placeholder="First Name *" class="form-control form-control-sm" />
+            </div>
+            <div class="form-group row">
+                <input id="personMiddleName" type="text" placeholder="Middle Name" class="form-control form-control-sm" />
+            </div>
+            <div class="form-group row">
+                <input id="personLastName" type="text" placeholder="Last Name *" class="form-control form-control-sm" />
+            </div>
+            <div class="form-group row">
+                <input id="personSuffix" type="text" placeholder="Suffix" class="form-control form-control-sm" />
+            </div>
+            <div class="form-group row">
+                <input id="personEmailPromotion" type="text" placeholder="Email Promotion *" class="form-control form-control-sm" />
+            </div>
+            <div class="form-group row">
+                <input id="personRowguid" type="text" placeholder="row guid *" class="form-control form-control-sm" />
+            </div>
+            <div class="form-group row d-flex justify-content-center">
+                <button id="personSave" type="button" class="btn btn-warning btn-sm col-md-3" style="margin:0 15px;">Save</button>
+                <button id="personReset" type="button" class="btn btn-info btn-sm col-md-1" style="margin:0 15px;"><i class="fas fa-sync-alt"></i></button>
+            </div>
+            <label style="font-size:11px;">* Required values.</label>
+        </form>
+    </div>
+    <!-- Table -->
+    <div class="col col-md-8">
+        <div class="pagination pagination-sm">
+            <div class="table-responsive">
+                <table id="personTable" class="table table-sm table-bordered table-hover">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>ID&nbsp;&nbsp;</th>
+                            <th>Person Type</th>
+                            <th>Name Style</th>
+                            <th class="xm-col">Title</th>
+                            <th>First Name</th>
+                            <th>Middle Name</th>
+                            <th>Last Name</th>
+                            <th>Suffix</th>
+                            <th>Email Promotion</th>
+                            <th class="md-col">row guid</th>
+                            <th class="xm-col">Modified Date</th>
+                            <th class="xm-col">Edit</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div style="height:100px;"></div>
+
+<!-- Error Modal -->
+<div class="modal fade" id="errorModal" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Internal Error</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p id="errorModalMsg">Error</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Confirm Modals -->
+<div class="modal fade" id="addressModal" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirm</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="addressDeleteID" />
+                <p>Are you sure you want to delete this record?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn btn-danger" onclick="addressDelete()">Yes</button>
+                <button type="button" data-dismiss="modal" class="btn btn-primary">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="personModal" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirm</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="personDeleteID" />
+                <p>Are you sure you want to delete this record?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn btn-danger" onclick="personDelete()">Yes</button>
+                <button type="button" data-dismiss="modal" class="btn btn-primary">No</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script src="~/Scripts/ViewScripts/Person.js"></script>

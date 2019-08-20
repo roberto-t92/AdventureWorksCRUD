@@ -58,25 +58,28 @@ namespace AdventureWorksCRUD.Models
 
         public DateTime ModifiedDate { get; set; }
 
-        public virtual Employee Employee { get; set; }
+        [NotMapped]
+        public string OperationType { get; set; }
 
-        public virtual BusinessEntity BusinessEntity { get; set; }
+        public virtual Employee Employee { internal get; set; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<BusinessEntityContact> BusinessEntityContact { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<EmailAddress> EmailAddress { get; set; }
-
-        public virtual Password Password { get; set; }
+        public virtual BusinessEntity BusinessEntity { internal get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Customer> Customer { get; set; }
+        public virtual ICollection<BusinessEntityContact> BusinessEntityContact { internal get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PersonCreditCard> PersonCreditCard { get; set; }
+        public virtual ICollection<EmailAddress> EmailAddress { internal get; set; }
+
+        public virtual Password Password { internal get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PersonPhone> PersonPhone { get; set; }
+        public virtual ICollection<Customer> Customer { internal get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PersonCreditCard> PersonCreditCard { internal get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PersonPhone> PersonPhone { internal get; set; }
     }
 }

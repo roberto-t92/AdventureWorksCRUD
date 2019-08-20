@@ -23,11 +23,8 @@ namespace AdventureWorksCRUD.Models
         [StringLength(60)]
         public string AddressLine1 { get; set; }
 
-        //private string _AddressLine2;
-
-        //[StringLength(60)]
-        //public string AddressLine2 { get; set; }
-        //public string AddressLine2 { get { return _AddressLine2 ?? String.Empty; } set { } }
+        [StringLength(60)]
+        public string AddressLine2 { get; set; }
 
         [Required]
         [StringLength(30)]
@@ -39,16 +36,16 @@ namespace AdventureWorksCRUD.Models
         [StringLength(15)]
         public string PostalCode { get; set; }
 
-        public DbGeography SpatialLocation { get; set; }
+        //public DbGeography SpatialLocation { get; set; }
 
         public Guid rowguid { get; set; }
 
         public DateTime ModifiedDate { get; set; }
 
-        //public virtual StateProvince StateProvince { internal get; set; }
-        
-        //[NotMapped]
-        //public string OperationType { get; set; }
+        public virtual StateProvince StateProvince { internal get; set; }
+
+        [NotMapped]
+        public string OperationType { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BusinessEntityAddress> BusinessEntityAddress { internal get; set; }

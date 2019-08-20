@@ -1,6 +1,6 @@
 ﻿//Address Form Model
 function AddressModel() {
-    let AddressID = "", AddressLine1 = "", AddressLine2 = "", City = "", PostalCode = "", SpatialLocation = "", rowguid = "", OperationType = "";
+    let AddressID = "", AddressLine1 = "", AddressLine2 = "", City = "", StateProvinceID="", PostalCode = "", rowguid = "", OperationType = "";
 }
 
 // Address GET
@@ -23,7 +23,6 @@ $(document).ready(function () {
             { "data": "City" },
             { "data": "StateProvinceID" },
             { "data": "PostalCode" },
-            { "data": "SpatialLocation" },
             { "data": "rowguid" },
             {
                 "data": "ModifiedDate",
@@ -53,20 +52,26 @@ function editRowAddress(data) {
         $(this).addClass('text-primary');
         $('#addressLine1').removeClass('border border-danger');
         $('#addressCity').removeClass('border border-danger');
+        $('#addressStateProvinceID').removeClass('border border-danger');
         $('#addressPostalCode').removeClass('border border-danger');
-        $('#addressSpatialLocation').removeClass('border border-danger');
         $('#addressRowguid').removeClass('border border-danger');
     });
 
-    $('#departmentTable tbody').on('click', 'button', function () {
+    $('#addressTable tbody').on('click', 'button', function () {
         let table = $('#addressTable').DataTable();
         let row = table.row($(this).parents('tr')).data();
 
         $('#addressLine1').val(row.AddressLine1);
         $('#addressLine2').val(row.AddressLine2);
+
+        if ($('#addressLine2').val() == "") {
+            $('#addressLine2').attr("placeholder", '');
+        }
+
         $('#addressCity').val(row.City);
+        $('#addressStateProvinceID').attr('placeholder', 'Cannot be updated.');
+        $('#addressStateProvinceID').prop('disabled', true);
         $('#addressPostalCode').val(row.PostalCode);
-        $('#addressSpatialLocation').val(row.SpatialLocation);
         $('#addressRowguid').val(row.rowguid);
 
         $('#addressID').val(data);
@@ -85,12 +90,12 @@ function validateAddress() {
         $("#addressCity").addClass('border border-danger');
         val = false;
     }
-    if ($('#addressPostalCode').val() == "") {
-        $("#addressPostalCode").addClass('border border-danger');
+    if ($('#addressStateProvinceID').val() == "") {
+        $("#addressStateProvinceID").addClass('border border-danger');
         val = false;
     }
-    if ($('#addressSpatialLocation').val() == "") {
-        $("#addressSpatialLocation").addClass('border border-danger');
+    if ($('#addressPostalCode').val() == "") {
+        $("#addressPostalCode").addClass('border border-danger');
         val = false;
     }
     if ($('#addressRowguid').val() == "") {
@@ -121,8 +126,8 @@ function addressPOST() {
     viewModel.AddressLine1 = $('#addressLine1').val();
     viewModel.AddressLine2 = $('#addressLine2').val();
     viewModel.City = $('#addressCity').val();
+    viewModel.StateProvinceID = $('#addressStateProvinceID').val();
     viewModel.PostalCode = $('#addressPostalCode').val();
-    viewModel.SpatialLocation = $('#addressSpatialLocation').val();
     viewModel.rowguid = $('#addressRowguid').val();
     viewModel.OperationType = $('#addressSave').text();
 
@@ -164,7 +169,7 @@ function addressPOST() {
         },
         success: function () {
             $.unblockUI();
-            departmentPostSuccess();
+            addressPostSuccess();
             $('#addressTable').DataTable().ajax.reload();
             addressReset();
         }
@@ -200,12 +205,12 @@ $("#addressCity").on('keyup', function (e) {
         $(this).removeClass("border border-danger");
     }
 });
-$("#addressPostalCode").on('keyup', function (e) {
+$("#addressStateProvinceID").on('keyup', function (e) {
     if ($(this).val().length > 0) {
         $(this).removeClass("border border-danger");
     }
 });
-$("#addressSpatialLocation").on('keyup', function (e) {
+$("#addressPostalCode").on('keyup', function (e) {
     if ($(this).val().length > 0) {
         $(this).removeClass("border border-danger");
     }
@@ -224,14 +229,18 @@ function addressReset() {
     $('#addressLine1').val('');
     $('#addressLine2').val('');
     $('#addressCity').val('');
+    $('#addressStateProvinceID').attr('placeholder', 'State Province ID *');
     $('#addressPostalCode').val('');
-    $('#addressSpatialLocation').val('');
     $('#addressRowguid').val('');
     $('#addressLine1').removeClass('border border-danger');
     $('#addressCity').removeClass('border border-danger');
+    $('#addressStateProvinceID').removeClass('border border-danger');
+    $('#addressStateProvinceID').prop('disabled', false);
     $('#addressPostalCode').removeClass('border border-danger');
-    $('#addressSpatialLocation').removeClass('border border-danger');
     $('#addressRowguid').removeClass('border border-danger');
+    if ($('#addressLine2').val() == "") {
+        $('#addressLine2').attr("placeholder", 'Address 2');
+    }
 
     $('#addressTable tr').removeClass('text-primary');
 
@@ -242,3 +251,52 @@ function addressReset() {
 
 //--------------------------------------------------------------------------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------------------------------------------------------------------------
+
+//Person Form Model
+function PersonModel() {
+    let BusinessEntityID = "", PersonType = "", NameStyle = "", Title = "", FirstName = "", MiddleName = "", LastName = "",
+        Suffix = "", EmailPromotion = "", rowguid = "", OperationType = "";
+}
+
+//Person GET
+$(document).ready(function () {
+    $("#personTable").DataTable({
+        "info": false,
+        "lengthChange": false,
+        "drawCallback": function () {
+            //personReset();
+        },
+        "ajax": {
+            "url": "/Person/GetPerson",
+            "type": "GET",
+            "datatype": "json"
+        },
+        "columns": [
+            { "data": "BusinessEntityID" },
+            { "data": "PersonType" },
+            { "data": "NameStyle" },
+            { "data": "Title" },
+            { "data": "FirstName" },
+            { "data": "MiddleName" },
+            { "data": "LastName" },
+            { "data": "Suffix" },
+            { "data": "EmailPromotion" },
+            { "data": "rowguid" },
+            {
+                "data": "ModifiedDate",
+                "render": function (data) {
+                    if (data === null) return "";
+                    return moment(data).format('DD/MM/YYYY');
+                }
+            },
+            {
+                "data": "BusinessEntityID", "render": function (data) {
+                    return "<button type='button' class='btn btn-success btn-sm' onclick=editRowPerson(" + data + ")><i class='fas fa-edit'></i></button>&nbsp;<div class='btn btn-danger btn-sm' style='cursor:pointer;' onclick=personConfirm(" + data + ")><i class='fas fa-trash-alt'></i></div>"
+                },
+                "orderable": false,
+                "searchable": false,
+                "className": 'text-center'
+            }
+        ]
+    });
+});

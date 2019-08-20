@@ -119,8 +119,13 @@ td {
     font-size:13px !important;
 }
 
-/* Employee table */
+/*Human Resources - Employee table */
 table#employeeTable {
+    table-layout:fixed;
+}
+
+/* Person - Address table */
+table#addressTable {
     table-layout:fixed;
 }
 
