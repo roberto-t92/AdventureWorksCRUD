@@ -16,45 +16,50 @@ namespace AdventureWorksCRUD.Controllers
         #region "Culture"
 
         [HttpGet]
-        public ActionResult GetCulture()
+        public ActionResult GetLocation()
         {
             using (dbConn ef = new dbConn())
             {
-                List<Culture> list = ef.Culture.ToList();
+                List<Location> list = ef.Location.ToList();
                 return Json(new { data = list }, JsonRequestBehavior.AllowGet);
             }
         }
 
         [HttpPost]
-        public ActionResult PostCulture(Culture CL)
+        public ActionResult PostLocation(Location LC)
         {
             try
             {
                 using (dbConn ef = new dbConn())
                 {
-                    Culture cl = new Culture();
+                    Location lc = new Location();
 
-                    if (CL.OperationType == "Save")
+                    if (LC.OperationType == "Save")
                     {
-                        cl.CultureID = CL.CultureID;
-                        cl.Name = CL.Name;
-                        cl.ModifiedDate = DateTime.Now;
-                        ef.Culture.Add(cl);
+                        short id = Convert.ToInt16(ef.Location.Max(field => (short?)field.LocationID) + 1 ?? 1);
+                        lc.LocationID = LC.LocationID;
+                        lc.Name = LC.Name;
+                        lc.CostRate = LC.CostRate;
+                        lc.Availability = LC.Availability;
+                        lc.ModifiedDate = DateTime.Now;
+                        ef.Location.Add(lc);
                         ef.SaveChanges();
                     }
 
-                    if (CL.OperationType == "Update")
+                    if (LC.OperationType == "Update")
                     {
-                        cl = ef.Culture.First(row => row.CultureID == CL.CultureID);
-                        cl.Name = CL.Name;
-                        cl.ModifiedDate = DateTime.Now;
+                        lc = ef.Location.First(row => row.LocationID == LC.LocationID);
+                        lc.Name = LC.Name;
+                        lc.CostRate = LC.CostRate;
+                        lc.Availability = LC.Availability;
+                        lc.ModifiedDate = DateTime.Now;
                         ef.SaveChanges();
                     }
 
-                    if (CL.OperationType == "Delete")
+                    if (LC.OperationType == "Delete")
                     {
-                        cl = ef.Culture.FirstOrDefault(row => row.CultureID == CL.CultureID);
-                        ef.Culture.Remove(cl);
+                        lc = ef.Location.FirstOrDefault(row => row.LocationID == LC.LocationID);
+                        ef.Location.Remove(lc);
                         ef.SaveChanges();
                     }
                 }

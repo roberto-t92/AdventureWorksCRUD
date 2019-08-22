@@ -674,8 +674,8 @@ function contactTypePOST() {
 
 //ContactType POST - Success
 function contactTypePostSuccess() {
-    $('#contactTypeSuccess').show('fade');
-    setTimeout(function () { $('#contactTypeSuccess').hide('fade'); }, 6000);
+    $('#contactTypePostSuccess').show('fade');
+    setTimeout(function () { $('#contactTypePostSuccess').hide('fade'); }, 6000);
 }
 
 //ContactType DELETE
