@@ -69,7 +69,7 @@
                 <input id="productCategoryName" type="text" placeholder="Name *" class="form-control form-control-sm" />
             </div>
             <div class="form-group row">
-                <input id="productCategoryRowguid" type="text" placeholder="Cost Rate *" class="form-control form-control-sm" />
+                <input id="productCategoryRowguid" type="text" placeholder="rowguid *" class="form-control form-control-sm" />
             </div>
             <div class="form-group row d-flex justify-content-center">
                 <button id="productCategorySave" type="button" class="btn btn-warning btn-sm col-md-3" style="margin:0 15px;">Save</button>
@@ -88,6 +88,67 @@
                             <th>ID&nbsp;&nbsp;</th>
                             <th>Name</th>
                             <th>row guid</th>
+                            <th>Modified Date</th>
+                            <th>Edit</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div style="height:100px;"></div>
+
+<!-- Product Review -->
+<div class="row">
+    <!-- Form -->
+    <div class="col">
+        <h3 class="row d-flex justify-content-center">Product Review</h3>
+        <form>
+            <input type="hidden" id="productReviewID" />
+            <div class="form-group row">
+                <div id="productReviewAlert" class="alert alert-danger alert-dismissible collapse" role="alert" style="width:100%;">Error: There are required empty fields.<a href="#" class="close" data-dismiss="alert">&times;</a></div>
+                <div id="productReviewPostSuccess" class="alert alert-primary alert-dismissible collapse" role="alert" style="width:100%;">Data saved successfully.<a href="#" class="close" data-dismiss="alert">&times;</a></div>
+            </div>
+            <div class="form-group row">
+                <input id="productReviewProductID" type="text" placeholder="Product ID *" class="form-control form-control-sm" />
+            </div>
+            <div class="form-group row">
+                <input id="productReviewReviewerName" type="text" placeholder="Reviewer Name *" class="form-control form-control-sm" />
+            </div>
+            <div class="form-group row">
+                <input id="productReviewReviewDate" type="text" placeholder="Review Date *" class="form-control form-control-sm" />
+            </div>
+            <div class="form-group row">
+                <input id="productReviewEmailAddress" type="text" placeholder="Email Address *" class="form-control form-control-sm" />
+            </div>
+            <div class="form-group row">
+                <input id="productReviewRating" type="text" placeholder="Rating *" class="form-control form-control-sm" />
+            </div>
+            <div class="form-group row">
+                <input id="productReviewComments" type="text" placeholder="Comments" class="form-control form-control-sm" />
+            </div>
+            <div class="form-group row d-flex justify-content-center">
+                <button id="productReviewSave" type="button" class="btn btn-warning btn-sm col-md-3" style="margin:0 15px;">Save</button>
+                <button id="productReviewReset" type="button" class="btn btn-info btn-sm col-md-1" style="margin:0 15px;"><i class="fas fa-sync-alt"></i></button>
+            </div>
+            <label style="font-size:11px;">* Required values.</label>
+        </form>
+    </div>
+    <!-- Table -->
+    <div class="col col-md-8">
+        <div class="pagination pagination-sm">
+            <div class="table-responsive">
+                <table id="productReviewTable" class="table table-sm table-bordered table-hover">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>ID&nbsp;&nbsp;</th>
+                            <th>Product ID</th>
+                            <th>Reviewer Name</th>
+                            <th>Review Date</th>
+                            <th>Email Address</th>
+                            <th>Rating</th>
+                            <th>Comments</th>
                             <th>Modified Date</th>
                             <th>Edit</th>
                         </tr>
@@ -156,6 +217,27 @@
             </div>
             <div class="modal-footer">
                 <button type="button" data-dismiss="modal" class="btn btn-danger" onclick="productCategoryDelete()">Yes</button>
+                <button type="button" data-dismiss="modal" class="btn btn-primary">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="productReviewModal" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirm</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="productReviewDeleteID" />
+                <p>Are you sure you want to delete this record?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn btn-danger" onclick="productReviewDelete()">Yes</button>
                 <button type="button" data-dismiss="modal" class="btn btn-primary">No</button>
             </div>
         </div>

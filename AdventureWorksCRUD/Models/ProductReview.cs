@@ -30,6 +30,9 @@ namespace AdventureWorksCRUD.Models
 
         public DateTime ModifiedDate { get; set; }
 
-        public virtual Product Product { get; set; }
+        [NotMapped]
+        public string OperationType { get; set; }
+
+        public virtual Product Product { internal get; set; }
     }
 }

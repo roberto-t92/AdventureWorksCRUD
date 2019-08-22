@@ -205,7 +205,6 @@ function locationReset() {
 //--------------------------------------------------------------------------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------------------------------------------------------------------------
 
-
 //ProductCategory Form Model
 function ProductCategoryModel() {
     let ProductCategoryID = "", Name = "", rowguid = "",  OperationType = "";
@@ -226,6 +225,7 @@ $(document).ready(function () {
         },
         "columns": [
             { "data": "ProductCategoryID" },
+            { "data": "Name" },
             { "data": "rowguid" },
             {
                 "data": "ModifiedDate",
@@ -254,7 +254,7 @@ function editRowProductCategory(data) {
         $('tr').removeClass('text-primary');
         $(this).addClass('text-primary');
         $('#productCategoryName').removeClass('border border-danger');
-        $('#productRowguid').removeClass('border border-danger');
+        $('#productCategoryRowguid').removeClass('border border-danger');
     });
 
     $('#productCategoryTable tbody').on('click', 'button', function () {
@@ -262,7 +262,7 @@ function editRowProductCategory(data) {
         let row = table.row($(this).parents('tr')).data();
 
         $('#productCategoryName').val(row.Name);
-        $('#productCategoryRowguid').val(row.CostRate);
+        $('#productCategoryRowguid').val(row.rowguid);
         $('#productCategoryID').val(data);
     });
 }
@@ -355,7 +355,7 @@ function productCategoryPostSuccess() {
     setTimeout(function () { $('#productCategoryPostSuccess').hide('fade'); }, 6000);
 }
 
-//Location DELETE
+//ProductCategory DELETE
 function productCategoryConfirm(data) {
     $('#productCategoryModal').modal('show');
     $('#productCategoryDeleteID').val(data);
@@ -394,3 +394,254 @@ function productCategoryReset() {
     $('#productCategoryID').val('');
     $('#productCategoryDeleteID').val('');
     $('#productCategorySave').text('Save');
+}
+
+//--------------------------------------------------------------------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------------------------------------------------------
+
+//ProductReview Form Model
+function ProductReviewModel() {
+    let ProductReviewID = "", ProductID = "", ReviewerName = "", ReviewDate = "", EmailAddress = "", Rating = "",
+        Comments = "", OperationType = "";
+}
+
+//ProductReview GET
+$(document).ready(function () {
+    $("#productReviewTable").DataTable({
+        "info": false,
+        "lengthChange": false,
+        "drawCallback": function () {
+            productReviewReset();
+        },
+        "ajax": {
+            "url": "/Production/GetProductReview",
+            "type": "GET",
+            "datatype": "json"
+        },
+        "columns": [
+            { "data": "ProductReviewID" },
+            { "data": "ProductID" },
+            { "data": "ReviewerName" },
+            {
+                "data": "ReviewDate",
+                "render": function (data) {
+                    if (data === null) return "";
+                    return moment(data).format('DD/MM/YYYY');
+                }
+            },
+            { "data": "EmailAddress" },
+            { "data": "Rating" },
+            { "data": "Comments" },
+            {
+                "data": "ModifiedDate",
+                "render": function (data) {
+                    if (data === null) return "";
+                    return moment(data).format('DD/MM/YYYY');
+                }
+            },
+            {
+                "data": "ProductReviewID", "render": function (data) {
+                    return "<button type='button' class='btn btn-success btn-sm' onclick=editRowProductReview(" + data + ")><i class='fas fa-edit'></i></button>&nbsp;<div class='btn btn-danger btn-sm' style='cursor:pointer;' onclick=productReviewConfirm(" + data + ")><i class='fas fa-trash-alt'></i></div>"
+                },
+                "orderable": false,
+                "searchable": false,
+                "className": 'text-center'
+            }
+        ]
+    });
+});
+
+//ProductReview Edit Button
+function editRowProductReview(data) {
+    $('#productReviewSave').text('Update');
+
+    $('#productReviewTable tbody').on('click', 'tr', function () {
+        $('tr').removeClass('text-primary');
+        $(this).addClass('text-primary');
+        $('#productReviewProductID').removeClass('border border-danger');
+        $('#productReviewReviewerName').removeClass('border border-danger');
+        $('#productReviewReviewDate').removeClass('border border-danger');
+        $('#productReviewEmailAddress').removeClass('border border-danger');
+        $('#productReviewRating').removeClass('border border-danger');
+    });
+
+    $('#productReviewTable tbody').on('click', 'button', function () {
+        let table = $('#productReviewTable').DataTable();
+        let row = table.row($(this).parents('tr')).data();
+
+        $('#productReviewProductID').val(row.ProductID);
+        $('#productReviewReviewerName').val(row.ReviewerName);
+        $('#productReviewReviewDate').val(row.ReviewDate);
+        $('#productReviewEmailAddress').val(row.EmailAddress);
+        $('#productReviewRating').val(row.Rating);
+        $('#productReviewComments').val(row.Comments);
+        $('#productReviewID').val(data);
+    });
+}
+
+//ProductReview Validate
+function validateProductReview() {
+    let val = true;
+
+    if ($("#productReviewProductID").val() == "") {
+        $("#productReviewProductID").addClass('border border-danger');
+        val = false;
+    }
+    if ($("#productReviewReviewerName").val() == "") {
+        $("#productReviewReviewerName").addClass('border border-danger');
+        val = false;
+    }
+    if ($("#productReviewReviewDate").val() == "") {
+        $("#productReviewReviewDate").addClass('border border-danger');
+        val = false;
+    }
+    if ($("#productReviewEmailAddress").val() == "") {
+        $("#productReviewEmailAddress").addClass('border border-danger');
+        val = false;
+    }
+    if ($("#productReviewRating").val() == "") {
+        $("#productReviewRating").addClass('border border-danger');
+        val = false;
+    }
+
+    if (val == false) {
+        $("#productReviewAlert").show('fade');
+        setTimeout(function () { $("#productReviewAlert").hide('fade'); }, 7000);
+    }
+
+    return val;
+}
+
+//ProductReview Save
+$('#productReviewSave').click(function () {
+    if (validateProductReview()) {
+        productReviewPOST();
+    }
+});
+
+//ProductReview POST
+function productReviewPOST() {
+
+    let viewModel = new ProductReviewModel();
+    viewModel.ProductReviewID = $('#productReviewID').val();
+    viewModel.ProductID = $('#productReviewProductID').val();
+    viewModel.ReviewerName = $('#productReviewReviewerName').val();
+    viewModel.ReviewDate = $('#productReviewReviewDate').val();
+    viewModel.EmailAddress = $('#productReviewEmailAddress').val();
+    viewModel.Rating = $('#productReviewRating').val();
+    viewModel.Comments = $('#productReviewComments').val();
+    viewModel.OperationType = $('#productReviewSave').text();
+
+    let ljson = JSON.stringify({ PR : viewModel });
+
+    $.ajax({
+        url: '/Production/PostProductReview',
+        type: 'POST',
+        async: 'true',
+        cache: 'false',
+        data: ljson,
+        contentType: 'application/json',
+        beforeSend: function () {
+            $(document).ready(function () {
+                $.blockUI({
+                    message: '<div class="circle"></div><div class="circle1"></div>',
+                    css: {
+                        border: 'none',
+                        padding: '15px',
+                        backgroundColor: '#000',
+                        '-webkit-border-radius': '10px',
+                        '-moz-border-radius': '10px',
+                        opacity: .5,
+                        color: '#fff'
+                    }
+                });
+            });
+        },
+        complete: function () {
+            $.unblockUI();
+        },
+        error: function (xhr, httpStatusMessage, customMessage) {
+            if (xhr.status === 500) {
+                $.unblockUI();
+                $('#errorModalMsg').text(customMessage);
+                $('#errorModal').modal('show');
+                productReviewReset();
+            }
+        },
+        success: function () {
+            $.unblockUI();
+            productReviewPostSuccess();
+            $('#productReviewTable').DataTable().ajax.reload();
+            productReviewReset();
+        }
+    });
+}
+
+//ProductReview POST - Success
+function productReviewPostSuccess() {
+    $('#productReviewPostSuccess').show('fade');
+    setTimeout(function () { $('#productReviewPostSuccess').hide('fade'); }, 6000);
+}
+
+//ProductReview DELETE
+function productReviewConfirm(data) {
+    $('#productReviewModal').modal('show');
+    $('#productReviewDeleteID').val(data);
+}
+function productReviewDelete() {
+    let id = $('#productReviewDeleteID').val();
+    $('#productReviewID').val(id)
+    $('#productReviewSave').text('Delete');
+    productReviewPOST();
+}
+
+//ProductReview Form - Remove red border as user type
+$("#productReviewProductID").on('keyup', function (e) {
+    if ($(this).val().length > 0) {
+        $(this).removeClass("border border-danger");
+    }
+});
+$("#productReviewReviewerName").on('keyup', function (e) {
+    if ($(this).val().length > 0) {
+        $(this).removeClass("border border-danger");
+    }
+});
+$("#productReviewReviewDate").on('keyup', function (e) {
+    if ($(this).val().length > 0) {
+        $(this).removeClass("border border-danger");
+    }
+});
+$("#productReviewEmailAddress").on('keyup', function (e) {
+    if ($(this).val().length > 0) {
+        $(this).removeClass("border border-danger");
+    }
+});
+$("#productReviewRating").on('keyup', function (e) {
+    if ($(this).val().length > 0) {
+        $(this).removeClass("border border-danger");
+    }
+});
+
+//ProductReview Reset
+$("#productReviewReset").click(function () {
+    productReviewReset();
+});
+function productReviewReset() {
+    $('#productReviewProductID').val('');
+    $('#productReviewProductID').removeClass('border border-danger');
+    $('#productReviewReviewerName').val('');
+    $('#productReviewReviewerName').removeClass('border border-danger');
+    $('#productReviewReviewDate').val('');
+    $('#productReviewReviewDate').removeClass('border border-danger');
+    $('#productReviewEmailAddress').val('');
+    $('#productReviewEmailAddress').removeClass('border border-danger');
+    $('#productReviewRating').val('');
+    $('#productReviewRating').removeClass('border border-danger');
+    $('#productReviewComments').val('');
+
+    $('#productReviewTable tr').removeClass('text-primary');
+
+    $('#productReviewID').val('');
+    $('#productReviewDeleteID').val('');
+    $('#productReviewSave').text('Save');
+}
