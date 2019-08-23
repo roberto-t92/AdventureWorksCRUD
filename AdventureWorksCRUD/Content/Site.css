@@ -134,12 +134,26 @@ table#personTable {
     table-layout:fixed;
 }
 
+/* Production Product Review table */
+table#productReviewTable {
+    table-layout:fixed;
+}
+
+/* Purchasing Product Vendor table */
+table#productVendorTable {
+    table-layout:fixed;
+}
+
 .md-col {
     width:150px !important;
 }
 
 .xm-col {
     width:100px !important;
+}
+
+.xl-col {
+    width:400px !important;
 }
 
 footer {

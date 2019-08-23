@@ -41,10 +41,13 @@ namespace AdventureWorksCRUD.Models
 
         public DateTime ModifiedDate { get; set; }
 
-        public virtual Product Product { get; set; }
+        [NotMapped]
+        public string OperationType { get; set; }
 
-        public virtual UnitMeasure UnitMeasure { get; set; }
+        public virtual Product Product { internal get; set; }
 
-        public virtual Vendor Vendor { get; set; }
+        public virtual UnitMeasure UnitMeasure { internal get; set; }
+
+        public virtual Vendor Vendor { internal get; set; }
     }
 }

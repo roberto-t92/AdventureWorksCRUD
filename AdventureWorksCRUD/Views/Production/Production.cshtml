@@ -126,7 +126,7 @@
                 <input id="productReviewRating" type="text" placeholder="Rating *" class="form-control form-control-sm" />
             </div>
             <div class="form-group row">
-                <input id="productReviewComments" type="text" placeholder="Comments" class="form-control form-control-sm" />
+                <textarea class="form-control" id="productReviewComments" rows="6" placeholder="Comments"></textarea>
             </div>
             <div class="form-group row d-flex justify-content-center">
                 <button id="productReviewSave" type="button" class="btn btn-warning btn-sm col-md-3" style="margin:0 15px;">Save</button>
@@ -143,14 +143,14 @@
                     <thead class="thead-light">
                         <tr>
                             <th>ID&nbsp;&nbsp;</th>
-                            <th>Product ID</th>
-                            <th>Reviewer Name</th>
-                            <th>Review Date</th>
-                            <th>Email Address</th>
+                            <th class="xm-col">Product ID</th>
+                            <th class="md-col">Reviewer Name</th>
+                            <th class="xm-col">Review Date</th>
+                            <th class="md-col">Email Address</th>
                             <th>Rating</th>
-                            <th>Comments</th>
-                            <th>Modified Date</th>
-                            <th>Edit</th>
+                            <th class="xl-col">Comments</th>
+                            <th class="xm-col">Modified Date</th>
+                            <th class="xm-col">Edit</th>
                         </tr>
                     </thead>
                 </table>

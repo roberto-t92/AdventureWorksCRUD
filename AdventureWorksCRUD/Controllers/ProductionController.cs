@@ -37,7 +37,7 @@ namespace AdventureWorksCRUD.Controllers
                     if (LC.OperationType == "Save")
                     {
                         short id = Convert.ToInt16(ef.Location.Max(field => (short?)field.LocationID) + 1 ?? 1);
-                        lc.LocationID = LC.LocationID;
+                        lc.LocationID = id;
                         lc.Name = LC.Name;
                         lc.CostRate = LC.CostRate;
                         lc.Availability = LC.Availability;
@@ -97,7 +97,7 @@ namespace AdventureWorksCRUD.Controllers
                     if (PC.OperationType == "Save")
                     {
                         int id = Convert.ToInt32(ef.ProductCategory.Max(field => (int?)field.ProductCategoryID) + 1 ?? 1);
-                        pc.ProductCategoryID = PC.ProductCategoryID;
+                        pc.ProductCategoryID = id;
                         pc.Name = PC.Name;
                         pc.rowguid = PC.rowguid;
                         pc.ModifiedDate = DateTime.Now;
@@ -155,7 +155,7 @@ namespace AdventureWorksCRUD.Controllers
                     if (PR.OperationType == "Save")
                     {
                         int id = Convert.ToInt32(ef.ProductReview.Max(field => (int?)field.ProductReviewID) + 1 ?? 1);
-                        pr.ProductReviewID = PR.ProductReviewID;
+                        pr.ProductReviewID = id;
                         pr.ProductID = PR.ProductID;
                         pr.ReviewerName = PR.ReviewerName;
                         pr.ReviewDate = PR.ReviewDate;

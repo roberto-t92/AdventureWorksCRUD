@@ -471,7 +471,7 @@ function editRowProductReview(data) {
 
         $('#productReviewProductID').val(row.ProductID);
         $('#productReviewReviewerName').val(row.ReviewerName);
-        $('#productReviewReviewDate').val(row.ReviewDate);
+        $('#productReviewReviewDate').val(moment(row.ReviewDate).format("DD-MM-YYYY"));
         $('#productReviewEmailAddress').val(row.EmailAddress);
         $('#productReviewRating').val(row.Rating);
         $('#productReviewComments').val(row.Comments);
