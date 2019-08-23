@@ -86,6 +86,59 @@
 </div>
 <div style="height:100px;"></div>
 
+<!-- Ship Method -->
+<div class="row">
+    <!-- Form -->
+    <div class="col">
+        <h3 class="row d-flex justify-content-center">Ship Method</h3>
+        <form>
+            <input type="hidden" id="shipMethodID" />
+            <div class="form-group row">
+                <div id="shipMethodAlert" class="alert alert-danger alert-dismissible collapse" role="alert" style="width:100%;">Error: There are required empty fields.<a href="#" class="close" data-dismiss="alert">&times;</a></div>
+                <div id="shipMethodPostSuccess" class="alert alert-primary alert-dismissible collapse" role="alert" style="width:100%;">Data saved successfully.<a href="#" class="close" data-dismiss="alert">&times;</a></div>
+            </div>
+            <div class="form-group row">
+                <input id="shipMethodName" type="text" placeholder="Name *" class="form-control form-control-sm" />
+            </div>
+            <div class="form-group row">
+                <input id="shipMethodShipBase" type="text" placeholder="Ship Base *" class="form-control form-control-sm" />
+            </div>
+            <div class="form-group row">
+                <input id="shipMethodShipRate" type="text" placeholder="Ship Rate *" class="form-control form-control-sm" />
+            </div>
+            <div class="form-group row">
+                <input id="shipMethodRowguid" type="text" placeholder="row guid *" class="form-control form-control-sm" />
+            </div>
+            <div class="form-group row d-flex justify-content-center">
+                <button id="shipMethodSave" type="button" class="btn btn-warning btn-sm col-md-3" style="margin:0 15px;">Save</button>
+                <button id="shipMethodReset" type="button" class="btn btn-info btn-sm col-md-1" style="margin:0 15px;"><i class="fas fa-sync-alt"></i></button>
+            </div>
+            <label style="font-size:11px;">* Required values.</label>
+        </form>
+    </div>
+    <!-- Table -->
+    <div class="col col-md-8">
+        <div class="pagination pagination-sm">
+            <div class="table-responsive">
+                <table id="shipMethodTable" class="table table-sm table-bordered table-hover">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>ID&nbsp;&nbsp;</th>
+                            <th class="md-col">Name</th>
+                            <th>Ship Base</th>
+                            <th>Ship Rate</th>
+                            <th class="md-col">rowguid</th>
+                            <th class="xm-col">Modified Date</th>
+                            <th class="xm-col">Edit</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div style="height:100px;"></div>
+
 <!-- Error Modal -->
 <div class="modal fade" id="errorModal" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -122,6 +175,27 @@
             </div>
             <div class="modal-footer">
                 <button type="button" data-dismiss="modal" class="btn btn-danger" onclick="productVendorDelete()">Yes</button>
+                <button type="button" data-dismiss="modal" class="btn btn-primary">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="shipMethodModal" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirm</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="shipMethodDeleteID" />
+                <p>Are you sure you want to delete this record?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn btn-danger" onclick="shipMethodDelete()">Yes</button>
                 <button type="button" data-dismiss="modal" class="btn btn-primary">No</button>
             </div>
         </div>

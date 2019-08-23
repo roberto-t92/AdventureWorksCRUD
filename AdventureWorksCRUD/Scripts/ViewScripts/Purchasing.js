@@ -270,3 +270,224 @@ function productVendorReset() {
 
 //--------------------------------------------------------------------------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------------------------------------------------------------------------
+
+//ShipMethod Form Model
+function ShipMethodModel() {
+    let ShipMethodID = "", Name = "", ShipBase = "", ShipRate = "", rowguid = "", OperationType = "";
+}
+
+//ShipMethod GET
+$(document).ready(function () {
+    $("#shipMethodTable").DataTable({
+        "info": false,
+        "lengthChange": false,
+        "drawCallback": function () {
+            shipMethodReset();
+        },
+        "ajax": {
+            "url": "/Purchasing/GetShipMethod",
+            "type": "GET",
+            "datatype": "json"
+        },
+        "columns": [
+            { "data": "ShipMethodID" },
+            { "data": "Name" },
+            { "data": "ShipBase" },
+            { "data": "ShipRate" },
+            { "data": "rowguid" },
+            {
+                "data": "ModifiedDate",
+                "render": function (data) {
+                    if (data === null) return "";
+                    return moment(data).format('DD/MM/YYYY');
+                }
+            },
+            {
+                "data": "ShipMethodID", "render": function (data) {
+                    return "<button type='button' class='btn btn-success btn-sm' onclick=editRowShipMethod(" + data + ")><i class='fas fa-edit'></i></button>&nbsp;<div class='btn btn-danger btn-sm' style='cursor:pointer;' onclick=shipMethodConfirm(" + data + ")><i class='fas fa-trash-alt'></i></div>"
+                },
+                "orderable": false,
+                "searchable": false,
+                "className": 'text-center'
+            }
+        ]
+    });
+});
+
+//ShipMethod Edit Button
+function editRowShipMethod(data) {
+    $('#shipMethodSave').text('Update');
+
+    $('#shipMethodTable tbody').on('click', 'tr', function () {
+        $('tr').removeClass('text-primary');
+        $(this).addClass('text-primary');
+        $('#shipMethodName').removeClass('border border-danger');
+        $('#shipMethodShipBase').removeClass('border border-danger');
+        $('#shipMethodShipRate').removeClass('border border-danger');
+        $('#shipMethodRowguid').removeClass('border border-danger');
+    });
+
+    $('#shipMethodTable tbody').on('click', 'button', function () {
+        let table = $('#shipMethodTable').DataTable();
+        let row = table.row($(this).parents('tr')).data();
+
+        $('#shipMethodName').val(row.Name);
+        $('#shipMethodShipBase').val(row.ShipBase);
+        $('#shipMethodShipRate').val(row.ShipRate);
+        $('#shipMethodRowguid').val(row.rowguid);
+        $('#shipMethodID').val(data);
+    });
+}
+
+//ShipMethod Validate
+function validateShipMethod() {
+    let val = true;
+
+    if ($("#shipMethodName").val() == "") {
+        $("#shipMethodName").addClass('border border-danger');
+        val = false;
+    }
+    if ($("#shipMethodShipBase").val() == "") {
+        $("#shipMethodShipBase").addClass('border border-danger');
+        val = false;
+    }
+    if ($("#shipMethodShipRate").val() == "") {
+        $("#shipMethodShipRate").addClass('border border-danger');
+        val = false;
+    }
+    if ($("#shipMethodRowguid").val() == "") {
+        $("#shipMethodRowguid").addClass('border border-danger');
+        val = false;
+    }
+
+    if (val == false) {
+        $("#shipMethodAlert").show('fade');
+        setTimeout(function () { $("#shipMethodAlert").hide('fade'); }, 7000);
+    }
+
+    return val;
+}
+
+//ShipMehod Save
+$('#shipMethodSave').click(function () {
+    if (validateShipMethod()) {
+        shipMethodPOST();
+    }
+});
+
+//ShipMethod POST
+function shipMethodPOST() {
+
+    let viewModel = new ShipMethodModel();
+    viewModel.ShipMethodID = $('#shipMethodID').val();
+    viewModel.Name = $('#shipMethodName').val();
+    viewModel.ShipBase = $('#shipMethodShipBase').val();
+    viewModel.ShipRate = $('#shipMethodShipRate').val();
+    viewModel.rowguid = $('#shipMethodRowguid').val();
+    viewModel.OperationType = $('#shipMethodSave').text();
+
+    let ljson = JSON.stringify({ SM : viewModel });
+
+    $.ajax({
+        url: '/Purchasing/PostShipMethod',
+        type: 'POST',
+        async: 'true',
+        cache: 'false',
+        data: ljson,
+        contentType: 'application/json',
+        beforeSend: function () {
+            $(document).ready(function () {
+                $.blockUI({
+                    message: '<div class="circle"></div><div class="circle1"></div>',
+                    css: {
+                        border: 'none',
+                        padding: '15px',
+                        backgroundColor: '#000',
+                        '-webkit-border-radius': '10px',
+                        '-moz-border-radius': '10px',
+                        opacity: .5,
+                        color: '#fff'
+                    }
+                });
+            });
+        },
+        complete: function () {
+            $.unblockUI();
+        },
+        error: function (xhr, httpStatusMessage, customMessage) {
+            if (xhr.status === 500) {
+                $.unblockUI();
+                $('#errorModalMsg').text(customMessage);
+                $('#errorModal').modal('show');
+                shipMethodReset();
+            }
+        },
+        success: function () {
+            $.unblockUI();
+            locationPostSuccess();
+            $('#shipMethodTable').DataTable().ajax.reload();
+            shipMethodReset();
+        }
+    });
+}
+
+//ShipMethod POST - Success
+function shipMethodPostSuccess() {
+    $('#shipMethodPostSuccess').show('fade');
+    setTimeout(function () { $('#shipMethodPostSuccess').hide('fade'); }, 6000);
+}
+
+//ShipMethod DELETE
+function shipMethodConfirm(data) {
+    $('#shipMethodModal').modal('show');
+    $('#shipMethodDeleteID').val(data);
+}
+function shipMethodDelete() {
+    let id = $('#shipMethodDeleteID').val();
+    $('#shipMethodID').val(id)
+    $('#shipMethodSave').text('Delete');
+    shipMethodPOST();
+}
+
+//ShipMethod Form - Remove red border as user type
+$("#shipMethodName").on('keyup', function (e) {
+    if ($(this).val().length > 0) {
+        $(this).removeClass("border border-danger");
+    }
+});
+$("#shipMethodShipBase").on('keyup', function (e) {
+    if ($(this).val().length > 0) {
+        $(this).removeClass("border border-danger");
+    }
+});
+$("#shipMethodShipRate").on('keyup', function (e) {
+    if ($(this).val().length > 0) {
+        $(this).removeClass("border border-danger");
+    }
+});
+$("#shipMethodRowguid").on('keyup', function (e) {
+    if ($(this).val().length > 0) {
+        $(this).removeClass("border border-danger");
+    }
+});
+
+//ShipMethod Reset
+$("#shipMethodReset").click(function () {
+    shipMethodReset();
+});
+function shipMethodReset() {
+    $('#shipMethodName').val('');
+    $('#shipMethodName').removeClass('border border-danger');
+    $('#shipMethodShipRate').val('');
+    $('#shipMethodShipRate').removeClass('border border-danger');
+    $('#shipMethodShipBase').val('');
+    $('#shipMethodShipBase').removeClass('border border-danger');
+    $('#shipMethodRowguid').val('');
+    $('#shipMethodRowguid').removeClass('border border-danger');
+
+    $('#shipMethodTable tr').removeClass('text-primary');
+
+    $('#shipMethodID').val('');
+    $('#shipMethodDeleteID').val('');
+    $('#shipMethodSave').text('Save');
+};

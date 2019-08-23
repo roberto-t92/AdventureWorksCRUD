@@ -32,10 +32,13 @@ namespace AdventureWorksCRUD.Models
 
         public DateTime ModifiedDate { get; set; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PurchaseOrderHeader> PurchaseOrderHeader { get; set; }
+        [NotMapped]
+        public string OperationType { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SalesOrderHeader> SalesOrderHeader { get; set; }
+        public virtual ICollection<PurchaseOrderHeader> PurchaseOrderHeader { internal get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SalesOrderHeader> SalesOrderHeader { internal get; set; }
     }
 }
