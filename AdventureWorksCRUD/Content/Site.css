@@ -10,7 +10,7 @@
 
 nav {
     padding: 5px 50px;
-    height: 45px;
+    height: 48px;
 }
 
 h2 {
@@ -141,6 +141,16 @@ table#productReviewTable {
 
 /* Purchasing Product Vendor table */
 table#productVendorTable {
+    table-layout:fixed;
+}
+
+/* Purchasing Ship Method table */
+table#shipMethodTable {
+    table-layout:fixed;
+}
+
+/*Sales Sales Person table */
+table#salesPersonTable {
     table-layout:fixed;
 }
 

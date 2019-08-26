@@ -85,5 +85,67 @@ namespace AdventureWorksCRUD.Controllers
 
         #endregion
 
+        #region "Ship Method"
+
+        [HttpGet]
+        public ActionResult GetShipMethod()
+        {
+            using (dbConn ef = new dbConn())
+            {
+                List<ShipMethod> list = ef.ShipMethod.ToList();
+                return Json(new { data = list }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [HttpPost]
+        public ActionResult PostShipMethod(ShipMethod SM)
+        {
+            try
+            {
+                using (dbConn ef = new dbConn())
+                {
+                    ShipMethod sm = new ShipMethod();
+
+                    if (SM.OperationType == "Save")
+                    {
+                        int id = Convert.ToInt32(ef.ShipMethod.Max(field => (int?)field.ShipMethodID) + 1 ?? 1);
+                        sm.ShipMethodID = id;
+                        sm.Name = SM.Name;
+                        sm.ShipBase = SM.ShipBase;
+                        sm.ShipRate = SM.ShipRate;
+                        sm.rowguid = SM.rowguid;
+                        sm.ModifiedDate = DateTime.Now;
+                        ef.ShipMethod.Add(sm);
+                        ef.SaveChanges();
+                    }
+
+                    if (SM.OperationType == "Update")
+                    {
+                        sm = ef.ShipMethod.First(row => row.ShipMethodID == SM.ShipMethodID);
+                        sm.Name = SM.Name;
+                        sm.ShipBase = SM.ShipBase;
+                        sm.ShipRate = SM.ShipRate;
+                        sm.rowguid = SM.rowguid;
+                        sm.ModifiedDate = DateTime.Now;
+                        ef.SaveChanges();
+                    }
+
+                    if (SM.OperationType == "Delete")
+                    {
+                        sm = ef.ShipMethod.FirstOrDefault(row => row.ShipMethodID == SM.ShipMethodID);
+                        ef.ShipMethod.Remove(sm);
+                        ef.SaveChanges();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return new HttpStatusCodeResult(500, " :( Something bad happened: " + ex.Message);
+            }
+            return Json(new { success = true, Message = "Successful", JsonRequestBehavior.AllowGet });
+        }
+
+        #endregion
+
     }
 }

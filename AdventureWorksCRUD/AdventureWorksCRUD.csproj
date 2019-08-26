@@ -275,6 +275,7 @@
     <Content Include="Scripts\ViewScripts\Person.js" />
     <Content Include="Scripts\ViewScripts\Production.js" />
     <Content Include="Scripts\ViewScripts\Purchasing.js" />
+    <Content Include="Scripts\ViewScripts\Sales.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -300,10 +301,10 @@
     <Content Include="Views\Person\Person.cshtml" />
     <Content Include="Views\Production\Production.cshtml" />
     <Content Include="Views\Purchasing\Purchasing.cshtml" />
+    <Content Include="Views\Sales\Sales.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Sales\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -43,20 +43,23 @@ namespace AdventureWorksCRUD.Models
 
         public DateTime ModifiedDate { get; set; }
 
-        public virtual Employee Employee { get; set; }
+        [NotMapped]
+        public string OperationType { get; set; }
+
+        public virtual Employee Employee { internal get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SalesOrderHeader> SalesOrderHeader { get; set; }
+        public virtual ICollection<SalesOrderHeader> SalesOrderHeader { internal get; set; }
 
-        public virtual SalesTerritory SalesTerritory { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SalesPersonQuotaHistory> SalesPersonQuotaHistory { get; set; }
+        public virtual SalesTerritory SalesTerritory { internal get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SalesTerritoryHistory> SalesTerritoryHistory { get; set; }
+        public virtual ICollection<SalesPersonQuotaHistory> SalesPersonQuotaHistory { internal get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Store> Store { get; set; }
+        public virtual ICollection<SalesTerritoryHistory> SalesTerritoryHistory { internal get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Store> Store { internal get; set; }
     }
 }

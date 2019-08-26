@@ -424,7 +424,7 @@ function shipMethodPOST() {
         },
         success: function () {
             $.unblockUI();
-            locationPostSuccess();
+            shipMethodPostSuccess();
             $('#shipMethodTable').DataTable().ajax.reload();
             shipMethodReset();
         }
