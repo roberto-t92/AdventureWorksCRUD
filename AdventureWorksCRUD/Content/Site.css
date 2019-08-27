@@ -11,14 +11,21 @@
 nav {
     padding: 5px 50px;
     height: 48px;
+    font-family: 'Quicksand', sans-serif;
 }
 
 h2 {
-    margin:70px 0;
+    margin: 90px 0;
+    font-family: 'Quicksand', sans-serif;
 }
 
 h3 {
-    margin-bottom:25px;
+    margin-bottom: 25px;
+    font-family: 'Quicksand', sans-serif;
+}
+
+p {
+    font-family: 'Quicksand', sans-serif;
 }
 
 .li-margin {
@@ -166,8 +173,29 @@ table#salesPersonTable {
     width:400px !important;
 }
 
+/*index cards*/
+.card-container {
+    padding: 20px;
+}
+
+.card-sizing {
+    width: 18rem;
+    margin: 10px 20px;
+    padding:5px;
+}
+
+.card-controls {
+    font-size: 22px;
+    text-align: center;
+}
+
+.card-img {
+    width: 100%;
+    height: 90%;
+}
+
 .ml16 {
-    color: #402084;
+    color: #20568c;
     padding: 40px 0;
     font-weight: 800;
     font-size: 3em;

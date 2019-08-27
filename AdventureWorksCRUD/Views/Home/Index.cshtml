@@ -5,23 +5,68 @@
 <div class="jumbotron">
     <h1 class="ml16 text-center">Adventure Works CRUD</h1>
 </div>
+<p>Web App that performs CRUD operations on Microsoft Adventure Works 2012 database.</p>
+<br />
+<p>Tech used:</p>
+<section>
+    <div class="card-container">
+        <div id="card-carousel-1" class="carousel slide carousel-muti-item" data-ride="card-carousel">
+            <div class="carousel-inner" role="listbox">
+                <div class="carousel-item active">
+                    <div class="row justify-content-center">
+                        <div class="card card-sizing">
+                            <img class="card-img-top card-img" src="https://www.barrownz.com/Content/Images/Logos/MVCLogo.png">
+                        </div>
+                        <div class="card card-sizing">
+                            <img class="card-img-top card-img" src="https://www.asphostcentral.com/Images/EF_6.png">
+                        </div>
+                        <div class="card card-sizing">
+                            <img class="card-img-top card-img" src="https://i.imgur.com/1HeS3Re.jpg">
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="row justify-content-center">
+                        <div class="card card-sizing">
+                            <img class="card-img-top card-img" src="https://i.imgur.com/ZmS831M.png">
+                        </div>
+                        <div class="card card-sizing">
+                            <img class="card-img-top card-img" src="http://pluspng.com/img-png/logo-javascript-png-html-code-allows-to-embed-javascript-logo-in-your-website-587.png">
+                        </div>
+                        <div class="card card-sizing">
+                            <img class="card-img-top card-img" src="https://odino.org/images/mssql-logo.png">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-controls">
+                <a class="btn-floating" href="#card-carousel-1" data-slide="prev" style="margin:10px 20px;"><i class="fas fa-chevron-left"></i></a>
+                <a class="btn-floating" href="#card-carousel-1" data-slide="next" style="margin:10px 20px;"><i class="fas fa-chevron-right"></i></a>
+            </div>
+        </div>
+    </div>
+</section>
 
 <script>
-var textWrapper = document.querySelector('.ml16');
-textWrapper.innerHTML = textWrapper.textContent.replace(/\S/g, "<span class='letter'>$&</span>");
+    $(document).ready(function () {
+        $('#card-carousel-1').carousel({interval: 5000,pause:"false"}); 
+    });
+    
+    var textWrapper = document.querySelector('.ml16');
+    textWrapper.innerHTML = textWrapper.textContent.replace(/\S/g, "<span class='letter'>$&</span>");
 
-anime.timeline({loop: true})
-  .add({
-    targets: '.ml16 .letter',
-    translateY: [-100,0],
-    easing: "easeOutExpo",
-    duration: 1400,
-    delay: (el, i) => 30 * i
-  }).add({
-    targets: '.ml16',
-    opacity: 0,
-    duration: 1000,
-    easing: "easeOutExpo",
-    delay: 1000
-  });
+    anime.timeline({ loop: true })
+        .add({
+            targets: '.ml16 .letter',
+            translateY: [-100, 0],
+            easing: "easeOutExpo",
+            duration: 1400,
+            delay: (el, i) => 30 * i
+        }).add({
+            targets: '.ml16',
+            opacity: 0,
+            duration: 1000,
+            easing: "easeOutExpo",
+            delay: 1000
+        });
 </script>
